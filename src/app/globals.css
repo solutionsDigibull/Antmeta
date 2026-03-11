@@ -1,26 +1,213 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary */
+  --am-primary: #0077A8;
+  --am-primary-hover: #005F8A;
+  --am-primary-light: rgba(0, 119, 168, 0.10);
+
+  /* Secondary */
+  --am-secondary: #2E5A8F;
+
+  /* Accent (teal) */
+  --am-accent: #00796B;
+  --am-accent-light: rgba(0, 121, 107, 0.10);
+
+  /* Gold / Warning */
+  --am-gold: #E8920A;
+  --am-gold-light: rgba(232, 146, 10, 0.10);
+
+  /* Danger */
+  --am-danger: #DC2626;
+  --am-danger-light: rgba(220, 38, 38, 0.08);
+
+  /* Success */
+  --am-success: #16A34A;
+  --am-success-light: rgba(22, 163, 74, 0.10);
+
+  /* Purple */
+  --am-purple: #7C3AED;
+  --am-purple-light: rgba(124, 58, 237, 0.08);
+
+  /* Backgrounds */
+  --am-bg: #F0F4F8;
+  --am-bg-surface: #FFFFFF;
+  --am-bg-card: rgba(255, 255, 255, 0.95);
+  --am-topbar-bg: rgba(255, 255, 255, 0.85);
+  --am-login-bg: rgba(241, 245, 249, 0.9);
+  --am-login-card-bg: rgba(255, 255, 255, 0.97);
+  --am-input-bg: rgba(0, 119, 168, 0.04);
+
+  /* Borders */
+  --am-border: rgba(0, 119, 168, 0.12);
+  --am-border-strong: rgba(0, 119, 168, 0.22);
+  --am-border-faint: rgba(0, 0, 0, 0.06);
+
+  /* Text hierarchy */
+  --am-text: #0F172A;
+  --am-text-2: #475569;
+  --am-text-3: #94A3B8;
+  --am-text-4: #64748B;
+
+  /* Grid & effects */
+  --am-grid-line: rgba(0, 119, 168, 0.04);
+  --am-scroll-thumb: rgba(0, 119, 168, 0.2);
+  --am-radial-bg: linear-gradient(180deg, #F0F4F8, #E2E8F0);
+
+  /* shadcn overrides */
+  --background: var(--am-bg);
+  --foreground: var(--am-text);
+  --card: var(--am-bg-card);
+  --card-foreground: var(--am-text);
+  --primary: var(--am-primary);
+  --primary-foreground: #ffffff;
+  --secondary: var(--am-secondary);
+  --secondary-foreground: var(--am-text);
+  --muted: var(--am-bg-surface);
+  --muted-foreground: var(--am-text-3);
+  --accent: var(--am-accent);
+  --accent-foreground: #ffffff;
+  --destructive: var(--am-danger);
+  --destructive-foreground: #ffffff;
+  --border: var(--am-border);
+  --input: var(--am-border);
+  --ring: var(--am-primary);
+  --radius: 0.75rem;
+}
+
+.dark {
+  /* Primary */
+  --am-primary: #0093B6;
+  --am-primary-hover: #007A9A;
+  --am-primary-light: rgba(0, 147, 182, 0.12);
+
+  /* Secondary */
+  --am-secondary: #1E3A5F;
+
+  /* Accent (teal) */
+  --am-accent: #009688;
+  --am-accent-light: rgba(0, 150, 136, 0.15);
+
+  /* Gold / Warning */
+  --am-gold: #F4A020;
+  --am-gold-light: rgba(244, 160, 32, 0.12);
+
+  /* Danger */
+  --am-danger: #EF4444;
+  --am-danger-light: rgba(239, 68, 68, 0.12);
+
+  /* Success */
+  --am-success: #22C55E;
+  --am-success-light: rgba(34, 197, 94, 0.12);
+
+  /* Purple */
+  --am-purple: #8B5CF6;
+  --am-purple-light: rgba(139, 92, 246, 0.12);
+
+  /* Backgrounds */
+  --am-bg: #04101E;
+  --am-bg-surface: #060F1C;
+  --am-bg-card: rgba(10, 22, 42, 0.92);
+  --am-topbar-bg: rgba(6, 15, 28, 0.8);
+  --am-login-bg: rgba(8, 18, 35, 0.85);
+  --am-login-card-bg: rgba(10, 22, 42, 0.95);
+  --am-input-bg: rgba(0, 147, 182, 0.06);
+
+  /* Borders */
+  --am-border: rgba(0, 147, 182, 0.15);
+  --am-border-strong: rgba(0, 147, 182, 0.28);
+  --am-border-faint: rgba(255, 255, 255, 0.05);
+
+  /* Text hierarchy */
+  --am-text: #F0F6FF;
+  --am-text-2: #7FA8C8;
+  --am-text-3: #3D607A;
+  --am-text-4: #9BBDD4;
+
+  /* Grid & effects */
+  --am-grid-line: rgba(0, 147, 182, 0.03);
+  --am-scroll-thumb: rgba(0, 147, 182, 0.2);
+  --am-radial-bg: radial-gradient(ellipse 90% 60% at 65% 10%, rgba(0, 147, 182, 0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 5% 90%, rgba(30, 58, 95, 0.25) 0%, transparent 55%),
+    linear-gradient(180deg, #04101E, #030B16);
+
+  /* shadcn overrides */
+  --background: var(--am-bg);
+  --foreground: var(--am-text);
+  --card: var(--am-bg-card);
+  --card-foreground: var(--am-text);
+  --primary: var(--am-primary);
+  --primary-foreground: #ffffff;
+  --secondary: var(--am-secondary);
+  --secondary-foreground: var(--am-text);
+  --muted: var(--am-bg-surface);
+  --muted-foreground: var(--am-text-3);
+  --accent: var(--am-accent);
+  --accent-foreground: #ffffff;
+  --destructive: var(--am-danger);
+  --destructive-foreground: #ffffff;
+  --border: var(--am-border);
+  --input: var(--am-border);
+  --ring: var(--am-primary);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-am-primary: var(--am-primary);
+  --color-am-primary-hover: var(--am-primary-hover);
+  --color-am-primary-light: var(--am-primary-light);
+  --color-am-secondary: var(--am-secondary);
+  --color-am-accent: var(--am-accent);
+  --color-am-accent-light: var(--am-accent-light);
+  --color-am-gold: var(--am-gold);
+  --color-am-gold-light: var(--am-gold-light);
+  --color-am-danger: var(--am-danger);
+  --color-am-danger-light: var(--am-danger-light);
+  --color-am-success: var(--am-success);
+  --color-am-success-light: var(--am-success-light);
+  --color-am-purple: var(--am-purple);
+  --color-am-purple-light: var(--am-purple-light);
+  --color-am-bg: var(--am-bg);
+  --color-am-bg-surface: var(--am-bg-surface);
+  --color-am-bg-card: var(--am-bg-card);
+  --color-am-topbar-bg: var(--am-topbar-bg);
+  --color-am-login-bg: var(--am-login-bg);
+  --color-am-login-card-bg: var(--am-login-card-bg);
+  --color-am-input-bg: var(--am-input-bg);
+  --color-am-border: var(--am-border);
+  --color-am-border-strong: var(--am-border-strong);
+  --color-am-border-faint: var(--am-border-faint);
+  --color-am-text: var(--am-text);
+  --color-am-text-2: var(--am-text-2);
+  --color-am-text-3: var(--am-text-3);
+  --color-am-text-4: var(--am-text-4);
+  --color-am-grid-line: var(--am-grid-line);
+  --color-am-scroll-thumb: var(--am-scroll-thumb);
+  --font-poppins: 'Poppins', sans-serif;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Inter', sans-serif;
+  background: var(--am-bg);
+  color: var(--am-text);
+  min-height: 100vh;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--am-scroll-thumb);
+  border-radius: 3px;
+}
+
+/* Responsive table */
+.resp-table {
+  overflow-x: auto;
 }
