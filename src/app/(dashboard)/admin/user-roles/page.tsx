@@ -1,15 +1,14 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { DataTable, Td } from "@/components/shared/data-table";
 
-const adminUsers = [
-  { n: "Raghav S.", e: "raghav@antmeta.in", r: "Super Admin", rv: "blue", fa: "ok", l: "Now" },
-  { n: "Sathish K.", e: "sathish@antmeta.in", r: "Operations", rv: "teal", fa: "ok", l: "1h ago" },
-  { n: "Meera R.", e: "meera@antmeta.in", r: "Finance", rv: "purple", fa: "warn", l: "2d ago" },
-];
+interface AdminUser { n: string; e: string; r: string; rv: string; fa: string; l: string }
+
+const roleVariants: Record<string, string> = { super_admin: "blue", admin: "teal", support: "purple", client: "warn" };
 
 const permissionRows = [
   ["Dashboard", "Full", "Full", "View", "Own clients"],
@@ -22,6 +21,30 @@ const permissionRows = [
 ];
 
 export default function UserRoles() {
+  const [adminUsers, setAdminUsers] = useState<AdminUser[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/users")
+      .then(r => r.json())
+      .then(d => {
+        if (d.data) {
+          setAdminUsers(d.data
+            .filter((u: Record<string, string>) => u.role !== "client")
+            .map((u: Record<string, string>) => ({
+              n: u.name,
+              e: u.email,
+              r: u.role?.split("_").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ") || "Admin",
+              rv: roleVariants[u.role] || "blue",
+              fa: "ok",
+              l: "—",
+            })));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <div>
       <Panel

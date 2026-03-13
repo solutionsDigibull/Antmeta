@@ -6,25 +6,11 @@ import { KpiCard } from "@/components/shared/kpi-card";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
 
-const defaultInvoices = [
-  {
-    id: "INV-2602-023",
-    amt: "₹4,425",
-    plan: "Standard Q1",
-    due: "10 Feb 2026",
-    status: "overdue" as const,
-  },
-  {
-    id: "INV-2601-018",
-    amt: "₹4,425",
-    plan: "Standard Q4",
-    due: "10 Nov 2025",
-    status: "paid" as const,
-  },
-];
+interface ClientInvoice { id: string; amt: string; plan: string; due: string; status: "overdue" | "pending" | "paid" }
 
 export default function InvoicesClientPage() {
-  const [invoices, setInvoices] = useState(defaultInvoices);
+  const [invoices, setInvoices] = useState<ClientInvoice[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("/api/invoices")
@@ -34,7 +20,8 @@ export default function InvoicesClientPage() {
           id: inv.id, amt: inv.amt, plan: inv.type, due: inv.due, status: inv.status,
         })));
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
   return (

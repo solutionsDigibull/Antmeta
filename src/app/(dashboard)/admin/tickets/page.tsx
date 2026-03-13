@@ -6,14 +6,14 @@ import { KpiCard } from "@/components/shared/kpi-card";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { DataTable, Td } from "@/components/shared/data-table";
-import { TICKETS } from "@/lib/data/tickets";
 import type { Ticket } from "@/lib/types";
 
 export default function TicketsScreen() {
-  const [tickets, setTickets] = useState<Ticket[]>(TICKETS);
+  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/tickets").then(r => r.json()).then(d => { if (d.data) setTickets(d.data); }).catch(() => {});
+    fetch("/api/tickets").then(r => r.json()).then(d => { if (d.data) setTickets(d.data); }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   return (

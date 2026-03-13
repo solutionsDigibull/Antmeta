@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server'
-import { getAuthenticatedUser, unauthorized } from '@/lib/api-helpers'
+import { getAuthenticatedUser, getUserRole, isAdminRole, unauthorized, forbidden } from '@/lib/api-helpers'
 
 export async function GET() {
-  const { supabase, error } = await getAuthenticatedUser()
+  const { user, supabase, error } = await getAuthenticatedUser()
   if (error) return unauthorized()
+  if (!isAdminRole(getUserRole(user!))) return forbidden()
 
   const { data: masters, error: dbError } = await supabase
     .from('master_accounts')

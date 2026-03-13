@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { KpiCard } from "@/components/shared/kpi-card";
 import { Panel } from "@/components/shared/panel";
@@ -8,7 +8,10 @@ import { StatusBadge } from "@/components/shared/status-badge";
 import { DataTable, Td } from "@/components/shared/data-table";
 import { FilterSelect } from "@/components/shared/filter-bar";
 
-const monthly = [
+interface MonthlyRow { m: string; rev: number; exp: number; net: number }
+interface TradeRow { d: string; sym: string; side: string; qty: string; entry: string; exit: string; pnl: string; pos: boolean }
+
+const defaultMonthly: MonthlyRow[] = [
   { m: "Sep", rev: 42, exp: 18, net: 24 },
   { m: "Oct", rev: 56, exp: 22, net: 34 },
   { m: "Nov", rev: 48, exp: 20, net: 28 },
@@ -17,19 +20,47 @@ const monthly = [
   { m: "Feb", rev: 72, exp: 26, net: 46 },
 ];
 
-const trades = [
+const defaultTrades: TradeRow[] = [
   { d: "22 Feb", sym: "BTC-PERP", side: "LONG", qty: "0.025", entry: "$42,800", exit: "$43,600", pnl: "+₹4,200", pos: true },
   { d: "21 Feb", sym: "ETH-PERP", side: "LONG", qty: "0.40", entry: "$2,340", exit: "$2,410", pnl: "+₹7,360", pos: true },
   { d: "20 Feb", sym: "BTC-PERP", side: "SHORT", qty: "0.01", entry: "$43,200", exit: "$43,100", pnl: "+₹1,050", pos: true },
   { d: "19 Feb", sym: "ETH-PERP", side: "LONG", qty: "0.30", entry: "$2,200", exit: "$2,180", pnl: "−₹1,680", pos: false },
 ];
 
-const maxRevExp = Math.max(...monthly.map((m) => m.rev));
 const barW = 80;
 
 export default function PnLClientPage() {
   const [period, setPeriod] = useState("mtd");
   const [chartView, setChartView] = useState("equity");
+  const [monthly, setMonthly] = useState<MonthlyRow[]>(defaultMonthly);
+  const [trades, setTrades] = useState<TradeRow[]>(defaultTrades);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/analytics/pnl")
+      .then(r => r.json())
+      .then(d => {
+        if (d.data?.trades) {
+          setTrades(d.data.trades.map((t: Record<string, unknown>) => ({
+            d: t.date || "—",
+            sym: t.symbol || "—",
+            side: t.side || "—",
+            qty: String(t.quantity || "—"),
+            entry: String(t.entry_price || "—"),
+            exit: String(t.exit_price || "—"),
+            pnl: String(t.pnl || "—"),
+            pos: Number(t.pnl_raw || 0) >= 0,
+          })));
+        }
+        if (d.data?.monthly) {
+          setMonthly(d.data.monthly);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const maxRevExp = Math.max(...monthly.map((m) => m.rev));
 
   return (
     <div>

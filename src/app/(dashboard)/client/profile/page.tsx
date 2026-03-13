@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Panel } from "@/components/shared/panel";
 import { InfoGrid } from "@/components/shared/info-grid";
@@ -63,6 +63,14 @@ export default function MyProfilePage() {
   const [accountType] = useState<"individual" | "corporate">("individual");
   const [panFile, setPanFile] = useState<string | null>(null);
   const [aadhaarMode, setAadhaarMode] = useState("digilocker");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/clients")
+      .then(r => r.json())
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <div>

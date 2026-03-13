@@ -7,14 +7,14 @@ import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { DataTable, Td } from "@/components/shared/data-table";
 import { FilterBar, FilterSelect, FilterRight } from "@/components/shared/filter-bar";
-import { INVOICES } from "@/lib/data/invoices";
 import type { Invoice } from "@/lib/types";
 
 export default function Invoicing() {
-  const [invoiceList, setInvoiceList] = useState<Invoice[]>(INVOICES);
+  const [invoiceList, setInvoiceList] = useState<Invoice[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/invoices").then(r => r.json()).then(d => { if (d.data) setInvoiceList(d.data); }).catch(() => {});
+    fetch("/api/invoices").then(r => r.json()).then(d => { if (d.data) setInvoiceList(d.data); }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   return (

@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoginError("");
     if (!id || !pw) { setLoginError("Please enter your credentials"); return; }
     if (loginType === "admin" && !id.includes("@")) { setLoginError("Admin login requires a valid email address"); return; }
-    if (pw.length < 4) { setLoginError("Password must be at least 8 characters"); return; }
+    if (pw.length < 8) { setLoginError("Password must be at least 8 characters"); return; }
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email: id.includes("@") ? id : undefined,
@@ -102,16 +102,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setSignupData(data);
 
     // Trigger OTP via Supabase
-    const sendOtp = async () => {
+    (async () => {
       const phone = `+91${data.mobile.replace(/\D/g, "")}`;
       const { error } = await supabase.auth.signInWithOtp({ phone });
       if (error) {
         setLoginError(error.message);
+        toast.error(error.message);
+      } else {
+        toast.success(`OTP sent to +91 ${data.mobile}`);
       }
-    };
-    sendOtp();
+    })();
 
-    toast.success(`OTP sent to +91 ${data.mobile}`);
     return true;
   }, [supabase]);
 

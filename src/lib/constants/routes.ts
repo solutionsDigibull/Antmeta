@@ -2,7 +2,7 @@ export const ROUTES = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   VERIFY_OTP: "/verify-otp",
-  FORGOT_PASSWORD: "/forgot-password",
+  FORGOT_PASSWORD: "/forgot-password", // placeholder route path
   ADMIN: {
     DASHBOARD: "/admin/dashboard",
     CLIENTS: "/admin/clients",

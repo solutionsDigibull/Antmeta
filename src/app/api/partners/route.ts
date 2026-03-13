@@ -23,6 +23,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   const { user, supabase, error } = await getAuthenticatedUser()
   if (error) return unauthorized()
+  if (!isAdminRole(getUserRole(user!))) return forbidden()
 
   const body = await request.json()
   const parsed = createPartnerSchema.safeParse(body)

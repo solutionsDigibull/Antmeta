@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { KpiCard } from "@/components/shared/kpi-card";
 import { Panel } from "@/components/shared/panel";
@@ -39,10 +39,31 @@ const quickActions = [
   { ico: "\u{1F4AC}", l: "Support Center", s: "Mon–Fri, 9AM–6PM IST" },
 ];
 
+interface ClientKpis { mtdPnl: string; returnMtd: string; maxDrawdown: string; portfolioValue: string }
+
 export default function ClientDashboardPage() {
   const [chartPeriod, setChartPeriod] = useState("monthly");
   const [chartType, setChartType] = useState("revenue");
   const [hoverPoint, setHoverPoint] = useState<number | null>(null);
+  const [kpis, setKpis] = useState<ClientKpis>({ mtdPnl: "+₹38,400", returnMtd: "+8.4%", maxDrawdown: "3.2%", portfolioValue: "₹4.2L" });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/analytics/pnl")
+      .then(r => r.json())
+      .then(d => {
+        if (d.data) {
+          setKpis({
+            mtdPnl: d.data.mtd_pnl || kpis.mtdPnl,
+            returnMtd: d.data.return_mtd || kpis.returnMtd,
+            maxDrawdown: d.data.max_drawdown || kpis.maxDrawdown,
+            portfolioValue: d.data.portfolio_value || kpis.portfolioValue,
+          });
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
 
   const data = datasets[chartPeriod][chartType];
   const maxVal = Math.max(...data);
@@ -63,10 +84,10 @@ export default function ClientDashboardPage() {
     <div>
       {/* KPI Cards */}
       <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4 mb-3.5">
-        <KpiCard value="+₹38,400" label="MTD P&L" sub="M1 ALPHA Strategy" color="var(--am-success)" />
-        <KpiCard value="+8.4%" label="Return MTD" />
-        <KpiCard value="3.2%" label="Max Drawdown" color="var(--am-danger)" />
-        <KpiCard value="₹4.2L" label="Portfolio Value" />
+        <KpiCard value={kpis.mtdPnl} label="MTD P&L" sub="M1 ALPHA Strategy" color="var(--am-success)" />
+        <KpiCard value={kpis.returnMtd} label="Return MTD" />
+        <KpiCard value={kpis.maxDrawdown} label="Max Drawdown" color="var(--am-danger)" />
+        <KpiCard value={kpis.portfolioValue} label="Portfolio Value" />
       </div>
 
       {/* Current Plan + Quick Actions */}

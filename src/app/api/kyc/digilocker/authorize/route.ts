@@ -34,9 +34,18 @@ export async function GET() {
 
   const authorizeUrl = `https://digilocker.meripehchaan.gov.in/public/oauth2/1/authorize?${params}`
 
-  return NextResponse.json({
-    url: authorizeUrl,
-    state,
-    code_verifier: codeVerifier,
-  })
+  const response = NextResponse.json({ url: authorizeUrl, state })
+
+  const cookieOpts = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'lax' as const,
+    maxAge: 300,
+    path: '/',
+  }
+
+  response.cookies.set('digilocker_cv', codeVerifier, cookieOpts)
+  response.cookies.set('digilocker_state', state, cookieOpts)
+
+  return response
 }

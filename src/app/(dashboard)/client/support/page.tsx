@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
@@ -16,32 +16,14 @@ const clientTabs: [string, string][] = [
   ["contact", "\u{1F4DE} Contact"],
 ];
 
-const tickets = [
-  {
-    id: "TKT-001",
-    s: "Copy trade not activating",
-    p: "high" as const,
-    st: "open" as const,
-    time: "2h ago",
-    resp: "Team investigating your API connection",
-  },
-  {
-    id: "TKT-003",
-    s: "Invoice download not working",
-    p: "medium" as const,
-    st: "in-progress" as const,
-    time: "1d ago",
-    resp: "Fix deployed, please retry",
-  },
-  {
-    id: "TKT-004",
-    s: "API key rotation query",
-    p: "low" as const,
-    st: "resolved" as const,
-    time: "5d ago",
-    resp: "Regenerate key via Exchange Setup page",
-  },
-];
+interface ClientTicket {
+  id: string;
+  s: string;
+  p: "high" | "medium" | "low";
+  st: "open" | "in-progress" | "resolved";
+  time: string;
+  resp: string;
+}
 
 const guidelineCategories = [
   {
@@ -88,6 +70,27 @@ const contactChannels = [
 export default function SupportClientPage() {
   const [tab, setTab] = useState("tickets");
   const [expandedFaq, setExpandedFaq] = useState<number | null>(null);
+  const [tickets, setTickets] = useState<ClientTicket[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/tickets")
+      .then(r => r.json())
+      .then(d => {
+        if (d.data) {
+          setTickets(d.data.map((t: Record<string, string>) => ({
+            id: t.ticket_id || t.id,
+            s: t.subject || "—",
+            p: (t.priority || "low") as ClientTicket["p"],
+            st: (t.status || "open") as ClientTicket["st"],
+            time: t.created_at ? new Date(t.created_at).toLocaleDateString("en-IN") : "—",
+            resp: t.last_response || "Awaiting response",
+          })));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
 
   return (
     <div>

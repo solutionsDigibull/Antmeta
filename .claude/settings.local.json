@@ -1,0 +1,294 @@
+{
+  "env": {
+    "CLAUDE_CODE_MAX_OUTPUT_TOKENS": "8000",
+    "DISABLE_NON_ESSENTIAL_MODEL_CALLS": "1",
+    "DISABLE_COST_WARNINGS": "1",
+    "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
+    "DISABLE_TELEMETRY": "1",
+    "DISABLE_ERROR_REPORTING": "1",
+    "DISABLE_BUG_COMMAND": "1",
+    "DISABLE_AUTOUPDATER": "1",
+    "MCP_TIMEOUT": "30000",
+    "MCP_TOOL_TIMEOUT": "60000",
+    "MAX_MCP_OUTPUT_TOKENS": "50000",
+    "BASH_DEFAULT_TIMEOUT_MS": "120000",
+    "BASH_MAX_TIMEOUT_MS": "600000",
+    "BASH_MAX_OUTPUT_LENGTH": "100000"
+  },
+  "includeCoAuthoredBy": false,
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(file /c/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs/docs/* 2>/dev/null | grep -i text)",
+      "Bash(find /c/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs -name \"*.md\" -o -name \"*.txt\" -o -name \"*.json\" 2>/dev/null | grep -v node_modules)",
+      "WebFetch(domain:www.aitmpl.com)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:docs.aitmpl.com)",
+      "Bash(gh api repos/davila7/claude-code-templates/contents/templates --jq '.[].name' 2>/dev/null || echo \"trying alternative...\")",
+      "Bash(gh api repos/davila7/claude-code-templates/git/trees/main?recursive=1 --jq '.tree[].path' 2>/dev/null | head -200)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null || curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components\" | python -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null)",
+      "Bash(curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/skills\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null)",
+      "Bash(curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/commands\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null)",
+      "Bash(curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/hooks\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null)",
+      "Bash(curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/mcps\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null)",
+      "Bash(curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/settings\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null)",
+      "Bash(for dir in \"skills/web-development\" \"skills/database\" \"skills/security\" \"skills/development\" \"skills/design-to-code\" \"skills/analytics\" \"skills/workflow-automation\" \"skills/git\"; do echo \"=== $dir ===\"; curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/$dir\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null; done)",
+      "Bash(for dir in \"commands/nextjs-vercel\" \"commands/testing\" \"commands/security\" \"commands/performance\" \"commands/database\" \"commands/git-workflow\" \"commands/deployment\" \"commands/documentation\"; do echo \"=== $dir ===\"; curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/$dir\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null; done)",
+      "Bash(for dir in \"mcps/database\" \"mcps/browser_automation\" \"mcps/devtools\" \"mcps/web\" \"mcps/integration\" \"mcps/productivity\"; do echo \"=== $dir ===\"; curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/$dir\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null; done)",
+      "Bash(for dir in \"hooks/security\" \"hooks/quality-gates\" \"hooks/testing\" \"hooks/git\" \"hooks/performance\" \"hooks/development-tools\"; do echo \"=== $dir ===\"; curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/$dir\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null; done)",
+      "Bash(for dir in \"settings/api\" \"settings/authentication\" \"settings/environment\" \"settings/mcp\" \"settings/model\" \"settings/permissions\" \"settings/global\"; do echo \"=== $dir ===\"; curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/$dir\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null; done)",
+      "Bash(for dir in \"agents/frontend\" \"agents/security\" \"agents/testing\" \"agents/game-dev\"; do echo \"=== $dir ===\"; curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/$dir\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\" 2>/dev/null; done)",
+      "Bash(curl -s \"https://api.github.com/repos/davila7/claude-code-templates/contents/cli-tool/components/agents\" | python3 -c \"import sys,json; [print\\(x['name']\\) for x in json.load\\(sys.stdin\\)]\")",
+      "Bash(npm install -g claude-code-templates 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates install skill nextjs-best-practices 2>&1)",
+      "Bash(claude-code-templates --help 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --skill nextjs-best-practices,supabase-postgres-best-practices,nextjs-supabase-auth,typescript-expert,security-best-practices -y 2>&1)",
+      "WebFetch(domain:aitmpl.com)",
+      "Bash(claude-code-templates --skill development/nextjs-best-practices -y 2>&1 | head -30)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --skill development/supabase-postgres-best-practices,development/nextjs-supabase-auth,development/typescript-expert,development/security-best-practices -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --skill development/typescript-expert,development/security-best-practices -y 2>&1)",
+      "Bash(curl -s -I https://api.github.com/rate_limit 2>&1 | grep -i \"x-ratelimit\")",
+      "Bash(curl -s https://api.github.com/rate_limit 2>&1 | grep -A2 '\"rate\"')",
+      "Bash(curl -s https://api.github.com/rate_limit 2>&1 | python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\('Reset at:', d['rate']['reset']\\)\" 2>&1 || curl -s https://api.github.com/rate_limit 2>&1 | grep reset)",
+      "Bash(python3 -c \"import time; reset=1773118089; now=int\\(time.time\\(\\)\\); print\\(f'Resets in {reset-now} seconds \\({\\(reset-now\\)//60} minutes\\)'\\)\")",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --hook security/secret-scanner,security/dangerous-command-blocker,git/conventional-commits -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --setting permissions/deny-sensitive-files,permissions/development-mode,permissions/allow-npm-commands -y 2>&1)",
+      "Bash(npm:*)",
+      "Bash(yarn:*)",
+      "Bash(node:*)",
+      "Bash(git:*)",
+      "Bash(docker:*)",
+      "Bash(python:*)",
+      "Bash(pip:*)",
+      "Read(**/*.json)",
+      "Read(**/*.js)",
+      "Read(**/*.ts)",
+      "Read(**/*.py)",
+      "Edit(**/*.js)",
+      "Edit(**/*.ts)",
+      "Edit(**/*.py)",
+      "Edit(**/*.json)",
+      "Write(**/*.js)",
+      "Write(**/*.ts)",
+      "Write(**/*.py)",
+      "Bash(npm run lint)",
+      "Bash(npm run test:*)",
+      "Bash(npm run build)",
+      "Bash(npm start)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --command database/supabase-schema-sync,database/supabase-type-generator,database/supabase-migration-assistant,security/security-audit -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --mcp database/supabase,devtools/context7 -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --agent api-graphql/api-architect,development-team/fullstack-developer,database/database-architect,security/security-auditor,development-tools/test-engineer,documentation/api-documenter,development-tools/code-reviewer,development-tools/performance-engineer -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --hook development-tools/nextjs-code-quality-enforcer,development-tools/lint-on-save,testing/test-runner,performance/performance-budget-guard,git/prevent-direct-push,security/file-protection -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --command testing/generate-tests,testing/test-coverage,nextjs-vercel/nextjs-api-tester,nextjs-vercel/nextjs-middleware-creator,nextjs-vercel/nextjs-performance-audit,nextjs-vercel/nextjs-scaffold,git-workflow/create-pr,git-workflow/commit,documentation/generate-api-documentation,nextjs-vercel/vercel-deploy-optimize -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --mcp devtools/stripe,browser_automation/playwright-mcp,devtools/sentry -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --agent data-ai/quant-analyst,business-marketing/product-manager,business-marketing/payment-integration,development-tools/debugger,documentation/technical-writer,business-marketing/seo-specialist,development-team/devops-engineer,devops-infrastructure/vercel-deployment-specialist -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --command deployment/ci-setup,security/dependency-audit,security/secrets-scanner,performance/optimize-bundle-size,database/supabase-security-audit,database/supabase-performance-optimizer,testing/e2e-setup,deployment/add-changelog,documentation/create-architecture-documentation,nextjs-vercel/nextjs-bundle-analyzer,database/supabase-realtime-monitor -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --setting environment/performance-optimization,environment/privacy-focused,mcp/mcp-timeouts,global/git-commit-settings,environment/bash-timeouts -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --mcp integration/github-integration,productivity/notion,devtools/firecrawl,web/web-search-prime,devtools/grafana,devtools/postman,devtools/elasticsearch,database/postgresql-integration -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --hook development-tools/change-tracker,quality-gates/scope-guard,development-tools/smart-formatting -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --setting permissions/allow-git-operations -y 2>&1)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git pull:*)",
+      "Bash(git log:*)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --skill development/react-best-practices,development/stripe-integration,development/plaid-fintech,development/core-web-vitals,development/testing-patterns,development/playwright,development/seo,development/api-security-best-practices,development/security-compliance,development/tdd-workflow,development/i18n-localization,development/commit-smart,development/vercel-deploy,development/api-documentation-generator,development/google-analytics,development/workflow-automation,development/web-performance-optimization,development/postgres-schema-design,development/clerk-auth -y 2>&1)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && claude-code-templates --skill enterprise-communication/security-best-practices,enterprise-communication/api-security-best-practices,enterprise-communication/web-performance-optimization,enterprise-communication/postgres-schema-design,enterprise-communication/google-analytics,enterprise-communication/workflow-automation,enterprise-communication/commit-smart -y 2>&1)",
+      "WebFetch(domain:digilocker.gov.in)",
+      "WebFetch(domain:partners.digilocker.gov.in)",
+      "WebSearch",
+      "WebFetch(domain:docs.delta.exchange)",
+      "WebFetch(domain:razorpay.com)",
+      "WebFetch(domain:supabase.com)",
+      "WebFetch(domain:img1.digitallocker.gov.in)",
+      "WebFetch(domain:entity.digilocker.gov.in)",
+      "WebFetch(domain:docs.setu.co)",
+      "WebFetch(domain:www.frslabs.com)",
+      "WebFetch(domain:tinpan.proteantech.in)",
+      "mcp__chrome-devtools__new_page",
+      "mcp__chrome-devtools__wait_for",
+      "mcp__chrome-devtools__evaluate_script",
+      "mcp__chrome-devtools__navigate_page",
+      "WebFetch(domain:apisetu.gov.in)",
+      "WebFetch(domain:docs.decentro.tech)",
+      "WebFetch(domain:documenter.getpostman.com)",
+      "WebFetch(domain:digitallocker.gov.in)",
+      "WebFetch(domain:gridlines.stoplight.io)",
+      "WebFetch(domain:www.thirdrocktechkno.com)",
+      "WebFetch(domain:cf-media.api-setu.in)",
+      "WebFetch(domain:www.digilocker.gov.in)",
+      "WebFetch(domain:ezto.io)",
+      "WebFetch(domain:apix-drive.com)",
+      "WebFetch(domain:www.ainxttech.com)",
+      "WebFetch(domain:developer.sandbox.co.in)",
+      "WebFetch(domain:sandbox.co.in)",
+      "WebFetch(domain:developers.digitallocker.gov.in)",
+      "WebFetch(domain:docs.nsdctrust.com)",
+      "WebFetch(domain:www.idfy.com)",
+      "WebFetch(domain:eko.in)",
+      "Bash(cd \"C:\\\\Users\\\\hitli\\\\OneDrive\\\\Desktop\\\\Antmeta\\\\antmeta-nextjs\" && ls src/app/\\\\\\(dashboard\\\\\\)/client/)",
+      "Bash(cd \"C:\\\\Users\\\\hitli\\\\OneDrive\\\\Desktop\\\\Antmeta\\\\antmeta-nextjs\" && npx next build 2>&1 | tail -30)",
+      "Bash(cd \"C:\\\\Users\\\\hitli\\\\OneDrive\\\\Desktop\\\\Antmeta\\\\antmeta-nextjs\" && npx next lint 2>&1 | tail -10)",
+      "Bash(cd \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs\" && npx next lint 2>&1 | tail -10)",
+      "Bash(npx next:*)",
+      "Bash(grep -r \"\\\\.catch.*=>\" src/app/api/ 2>/dev/null | head -20)",
+      "Bash(grep -r \"await.*\\\\\\\\.update\" src/app/api/ 2>/dev/null | grep -v \"await supabase\" | head -10)",
+      "Bash(grep -n \"await supabase\" src/app/api/kyc/[documentId]/review/route.ts | tail -5)",
+      "Bash(grep -n \"document_type\\\\|file_url\\\\|file_name\" src/app/api/kyc/[clientId]/route.ts)",
+      "Bash(find \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs/src/app/\\(dashboard\\)\" -type f -name \"*.tsx\" | head -50)",
+      "Bash(find \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs/src/app/\\(auth\\)\" -type f -name \"*.tsx\")",
+      "Bash(ls -1 \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs/src/app/\\(dashboard\\)/admin/\" | grep -v \"^\\\\.\" | sort)",
+      "Bash(ls -1 \"C:/Users/hitli/OneDrive/Desktop/Antmeta/antmeta-nextjs/src/app/\\(dashboard\\)/client/\" | grep -v \"^\\\\.\" | sort)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./.env.*)",
+      "Read(./secrets/**)",
+      "Read(./config/credentials.json)",
+      "Read(./.env*)",
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/secret-scanner.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python .claude/hooks/dangerous-command-blocker.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/conventional-commits.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/prevent-direct-push.py"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "PROTECTED_PATTERNS=('*/etc/*' '*/usr/bin/*' '*/usr/sbin/*' '*.production.*' '*prod*config*' '*/node_modules/*' '*/vendor/*'); for pattern in \"${PROTECTED_PATTERNS[@]}\"; do if [[ \"$CLAUDE_TOOL_FILE_PATH\" == $pattern ]]; then echo \"Error: File $CLAUDE_TOOL_FILE_PATH is protected from modification\" >&2; exit 1; fi; done"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); FILE_PATH=$(echo \"$input\" | jq -r \".tool_input.file_path // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$FILE_PATH\" =~ \\.(js|jsx|ts|tsx)$ ]] && [[ ! \"$FILE_PATH\" =~ node_modules ]]; then echo \"🔍 Next.js Code Quality Enforcer: Reviewing $FILE_PATH...\"; ISSUES=0; if [ -f \"$FILE_PATH\" ]; then if [[ \"$FILE_PATH\" =~ app/.* ]]; then echo \"📁 App Router file detected: $FILE_PATH\"; if [[ \"$FILE_PATH\" =~ page\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"export default function\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"export default async function\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Page component must export default function\" >&2; ((ISSUES++)); fi; if [[ \"$FILE_PATH\" =~ layout\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"children\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Layout component should accept children prop\" >&2; ((ISSUES++)); fi; if [[ \"$FILE_PATH\" =~ page\\.(js|jsx|ts|tsx)$ ]] && ! grep -q \"Metadata\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"metadata\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Consider adding metadata export for SEO\"; fi; if grep -q \"use client\" \"$FILE_PATH\" 2>/dev/null; then echo \"🖥️ Client Component detected\"; if ! grep -E \"(useState|useEffect|onClick|onChange|onSubmit)\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Client component without interactivity - consider Server Component\"; fi; else echo \"🚀 Server Component (default)\"; if grep -E \"(useState|useEffect|onClick|onChange|onSubmit)\" \"$FILE_PATH\" 2>/dev/null; then echo \"❌ Interactive features in Server Component - add \\\"use client\\\" directive\" >&2; ((ISSUES++)); fi; fi; fi; if [[ \"$FILE_PATH\" =~ \\.(jsx|tsx)$ ]]; then if ! grep -q \"import.*React\" \"$FILE_PATH\" 2>/dev/null && grep -q \"<\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ JSX without React import (Next.js 17+ handles this automatically)\"; fi; if ! grep -q \"FC\\|FunctionComponent\" \"$FILE_PATH\" 2>/dev/null && grep -q \"props\" \"$FILE_PATH\" 2>/dev/null && [[ \"$FILE_PATH\" =~ \\.tsx$ ]]; then echo \"💡 Consider using React.FC or explicit prop types for TypeScript\"; fi; fi; if [[ \"$FILE_PATH\" =~ \\.js$ ]] && [ -f \"tsconfig.json\" ]; then echo \"📝 JavaScript file in TypeScript project: $FILE_PATH\"; echo \"💡 Consider migrating to TypeScript for better type safety\"; fi; if grep -q \"next/image\" \"$FILE_PATH\" 2>/dev/null; then echo \"✅ Using next/image for optimized images\"; elif grep -q \"<img\" \"$FILE_PATH\" 2>/dev/null; then echo \"🖼️ Regular <img> tag detected\"; echo \"💡 Consider using next/image for better performance\"; fi; if grep -q \"next/link\" \"$FILE_PATH\" 2>/dev/null; then echo \"✅ Using next/link for navigation\"; elif grep -q \"<a href=\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"http\" \"$FILE_PATH\" 2>/dev/null; then echo \"🔗 Regular <a> tag for internal links detected\"; echo \"💡 Use next/link for internal navigation\"; fi; if grep -q \"getServerSideProps\\|getStaticProps\" \"$FILE_PATH\" 2>/dev/null; then echo \"⚠️ Pages Router data fetching methods detected\"; echo \"💡 Consider migrating to App Router with Server Components\"; fi; if grep -q \"className=.*{\" \"$FILE_PATH\" 2>/dev/null; then echo \"🎨 Dynamic className detected\"; if ! grep -q \"clsx\\|classnames\\|cn(\" \"$FILE_PATH\" 2>/dev/null; then echo \"💡 Consider using clsx or similar utility for className concatenation\"; fi; fi; if [ $ISSUES -eq 0 ]; then echo \"✅ Code quality check passed for $FILE_PATH\"; else echo \"❌ Found $ISSUES code quality issues in $FILE_PATH\" >&2; exit 2; fi; else echo \"❌ File $FILE_PATH not found\"; fi; else echo \"ℹ️ Code quality check skipped (not a JavaScript/TypeScript file or failed operation)\"; fi'",
+            "timeout": 20
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.js || \"$CLAUDE_TOOL_FILE_PATH\" == *.ts || \"$CLAUDE_TOOL_FILE_PATH\" == *.jsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.tsx ]]; then npx eslint \"$CLAUDE_TOOL_FILE_PATH\" --fix 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]]; then pylint \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.rb ]]; then rubocop \"$CLAUDE_TOOL_FILE_PATH\" --auto-correct 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.js || \"$CLAUDE_TOOL_FILE_PATH\" == *.ts ]] && [[ -f package.json ]]; then npm test 2>/dev/null || yarn test 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]] && [[ -f pytest.ini || -f setup.cfg || -f pyproject.toml ]]; then pytest \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || python -m pytest \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.rb ]] && [[ -f Gemfile ]]; then bundle exec rspec \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); COMMAND=$(echo \"$input\" | jq -r \".tool_input.command // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$COMMAND\" =~ (npm\\ run\\ build|next\\ build|vercel\\ build|yarn\\ build) ]]; then echo \"📊 Performance Budget Guard: Analyzing build output...\"; if [ -d \".next\" ]; then BUNDLE_SIZE=$(find .next/static/chunks -name \"*.js\" -exec stat -f%z {} + 2>/dev/null | awk \"{total += \\$1} END {print total}\"); BUNDLE_SIZE_KB=$((BUNDLE_SIZE / 1024)); BUDGET_LIMIT=350; echo \"📦 Total bundle size: ${BUNDLE_SIZE_KB}KB\"; if [ $BUNDLE_SIZE_KB -gt $BUDGET_LIMIT ]; then echo \"🚨 PERFORMANCE BUDGET EXCEEDED!\"; echo \"Current bundle size: ${BUNDLE_SIZE_KB}KB\"; echo \"Budget limit: ${BUDGET_LIMIT}KB\"; echo \"Overage: $((BUNDLE_SIZE_KB - BUDGET_LIMIT))KB\"; echo \"\" >&2; echo \"⚠️ Performance budget exceeded by $((BUNDLE_SIZE_KB - BUDGET_LIMIT))KB!\" >&2; echo \"\" >&2; echo \"📋 Bundle Analysis:\" >&2; find .next/static/chunks -name \"*.js\" -exec ls -lah {} + 2>/dev/null | sort -k5 -hr | head -5 >&2; echo \"\" >&2; echo \"💡 Optimization recommendations:\" >&2; echo \"• Use dynamic imports for large components\" >&2; echo \"• Implement code splitting with next/dynamic\" >&2; echo \"• Check for duplicate dependencies\" >&2; echo \"• Optimize third-party libraries\" >&2; echo \"• Run: npm run analyze for detailed bundle analysis\" >&2; exit 2; else echo \"✅ Bundle size within budget: ${BUNDLE_SIZE_KB}KB / ${BUDGET_LIMIT}KB\"; REMAINING=$((BUDGET_LIMIT - BUNDLE_SIZE_KB)); echo \"🎯 Remaining budget: ${REMAINING}KB\"; if [ $REMAINING -lt 50 ]; then echo \"⚠️ Warning: Less than 50KB remaining in performance budget\"; fi; fi; else echo \"❌ No .next build directory found. Run build first.\"; fi; else echo \"ℹ️ Performance check skipped (not a build command or failed build)\"; fi'",
+            "timeout": 30
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'input=$(cat); FILE_PATH=$(echo \"$input\" | jq -r \".tool_input.file_path // empty\"); SUCCESS=$(echo \"$input\" | jq -r \".tool_response.success // false\"); if [ \"$SUCCESS\" = \"true\" ] && [[ \"$FILE_PATH\" =~ \\.(js|jsx|ts|tsx)$ ]] && [[ ! \"$FILE_PATH\" =~ node_modules ]]; then echo \"🔍 Performance Guard: Checking code changes in $FILE_PATH...\"; if [ -f \"$FILE_PATH\" ]; then FILE_SIZE=$(stat -f%z \"$FILE_PATH\" 2>/dev/null || stat -c%s \"$FILE_PATH\" 2>/dev/null); FILE_SIZE_KB=$((FILE_SIZE / 1024)); if [ $FILE_SIZE_KB -gt 100 ]; then echo \"⚠️ Large file detected: ${FILE_SIZE_KB}KB\"; echo \"💡 Consider splitting large components or lazy loading\"; fi; IMPORTS_COUNT=$(grep -c \"^import\" \"$FILE_PATH\" 2>/dev/null || echo \"0\"); if [ $IMPORTS_COUNT -gt 15 ]; then echo \"📦 Many imports detected: $IMPORTS_COUNT imports\"; echo \"💡 Consider consolidating imports or tree-shaking unused code\"; fi; if grep -q \"import.*\\*.*from\" \"$FILE_PATH\" 2>/dev/null; then echo \"🚨 Wildcard import detected in $FILE_PATH\"; echo \"💡 Use specific imports instead of wildcard imports for better tree-shaking\"; fi; if grep -q \"moment\" \"$FILE_PATH\" 2>/dev/null; then echo \"📅 Moment.js usage detected\"; echo \"💡 Consider using date-fns or native Date for smaller bundle size\"; fi; if grep -q \"lodash\" \"$FILE_PATH\" 2>/dev/null && ! grep -q \"lodash/\" \"$FILE_PATH\" 2>/dev/null; then echo \"🔧 Full Lodash import detected\"; echo \"💡 Use specific Lodash functions: import debounce from \\\"lodash/debounce\\\"\"; fi; echo \"✅ Performance check completed for $FILE_PATH\"; else echo \"❌ File $FILE_PATH not found\"; fi; else echo \"ℹ️ Performance check skipped (not a JavaScript/TypeScript file or failed operation)\"; fi'",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] File modified: $CLAUDE_TOOL_FILE_PATH\" >> ~/.claude/changes.log"
+          }
+        ]
+      },
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo \"[$(date '+%Y-%m-%d %H:%M:%S')] File created: $CLAUDE_TOOL_FILE_PATH\" >> ~/.claude/changes.log"
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.js || \"$CLAUDE_TOOL_FILE_PATH\" == *.ts || \"$CLAUDE_TOOL_FILE_PATH\" == *.jsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.tsx || \"$CLAUDE_TOOL_FILE_PATH\" == *.json || \"$CLAUDE_TOOL_FILE_PATH\" == *.css || \"$CLAUDE_TOOL_FILE_PATH\" == *.html ]]; then npx prettier --write \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.py ]]; then black \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.go ]]; then gofmt -w \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.rs ]]; then rustfmt \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; elif [[ \"$CLAUDE_TOOL_FILE_PATH\" == *.php ]]; then php-cs-fixer fix \"$CLAUDE_TOOL_FILE_PATH\" 2>/dev/null || true; fi"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR\"/.claude/hooks/scope-guard.sh"
+          }
+        ]
+      }
+    ]
+  }
+}

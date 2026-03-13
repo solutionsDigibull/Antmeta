@@ -1,14 +1,17 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { InfoGrid } from "@/components/shared/info-grid";
 
-const plans = [
+interface PlanRow { n: string; c: string; cl: number; price: string; algo: string; features: string[] }
+
+const defaultPlans: PlanRow[] = [
   {
     n: "Standard Plan", c: "var(--am-primary)", cl: 112, price: "₹4,500 / Quarter", algo: "1 Master Account",
-    features: ["Access to 1 algorithm", "Daily P&L sync", "Email support", "GST invoice", "Cashfree payment"],
+    features: ["Access to 1 algorithm", "Daily P&L sync", "Email support", "GST invoice", "Razorpay payment"],
   },
   {
     n: "Premium Plan", c: "var(--am-accent)", cl: 54, price: "₹9,000 / Quarter", algo: "All 3 Master Accounts",
@@ -20,7 +23,30 @@ const plans = [
   },
 ];
 
+const planColors: Record<string, string> = { standard: "var(--am-primary)", premium: "var(--am-accent)", exclusive: "var(--am-gold)" };
+
 export default function PlanManagement() {
+  const [plans, setPlans] = useState<PlanRow[]>(defaultPlans);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/plans")
+      .then(r => r.json())
+      .then(d => {
+        if (d.data && d.data.length > 0) {
+          setPlans(d.data.map((p: Record<string, unknown>) => ({
+            n: String(p.name),
+            c: planColors[String(p.slug)] || "var(--am-primary)",
+            cl: 0,
+            price: p.price ? `₹${Number(p.price).toLocaleString("en-IN")} / Quarter` : `${p.profit_share_pct}% of profits`,
+            algo: (p.algorithms as string[])?.length === 1 ? "1 Master Account" : `All ${(p.algorithms as string[])?.length} Master Accounts`,
+            features: Array.isArray(p.features) ? (p.features as string[]) : [],
+          })));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
   return (
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3.5 mb-3.5">

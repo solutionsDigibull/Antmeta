@@ -6,14 +6,14 @@ import { KpiCard } from "@/components/shared/kpi-card";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { DataTable, Td } from "@/components/shared/data-table";
-import { PARTNERS } from "@/lib/data/partners";
 import type { Partner } from "@/lib/types";
 
 export default function PartnersScreen() {
-  const [partners, setPartners] = useState<Partner[]>(PARTNERS);
+  const [partners, setPartners] = useState<Partner[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/partners").then(r => r.json()).then(d => { if (d.data) setPartners(d.data); }).catch(() => {});
+    fetch("/api/partners").then(r => r.json()).then(d => { if (d.data) setPartners(d.data); }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   return (

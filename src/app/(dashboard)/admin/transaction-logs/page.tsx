@@ -1,18 +1,38 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { DataTable, Td } from "@/components/shared/data-table";
 import { FilterBar, FilterSelect, FilterRight } from "@/components/shared/filter-bar";
 
-const transactions = [
-  { id: "CF_TXN_8821", cl: "Priya Menon", a: "₹8,850", gw: "Cashfree", gwv: "blue", inv: "INV-2602-025", dt: "15 Feb 2026, 14:32", st: "ok" },
-  { id: "STR_TXN_4412", cl: "TechCorp Pvt", a: "₹32,250", gw: "Stripe", gwv: "purple", inv: "INV-2602-024", dt: "12 Feb 2026, 10:15", st: "warn" },
-  { id: "CF_TXN_7730", cl: "Rajesh Kumar", a: "₹4,425", gw: "Cashfree", gwv: "blue", inv: "INV-2602-023", dt: "5 Feb 2026, 09:00", st: "bad" },
-];
+interface TxnRow { id: string; cl: string; a: string; gw: string; gwv: string; inv: string; dt: string; st: string }
 
 export default function TxnLogs() {
+  const [transactions, setTransactions] = useState<TxnRow[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/transactions")
+      .then(r => r.json())
+      .then(d => {
+        if (d.data) {
+          setTransactions(d.data.map((t: Record<string, string>) => ({
+            id: t.id || t.gateway_ref || "—",
+            cl: t.client_name || "—",
+            a: t.amount || "—",
+            gw: t.gateway || "razorpay",
+            gwv: t.gateway === "razorpay" ? "blue" : "purple",
+            inv: t.invoice_number || "—",
+            dt: t.created_at ? new Date(t.created_at).toLocaleString("en-IN") : "—",
+            st: t.status === "success" ? "ok" : t.status === "pending" ? "warn" : "bad",
+          })));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
   return (
     <div>
       <FilterBar>

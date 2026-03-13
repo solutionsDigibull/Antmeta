@@ -10,17 +10,17 @@ import { SearchInput } from "@/components/shared/search-input";
 import { FilterBar, FilterSelect, FilterRight } from "@/components/shared/filter-bar";
 import { Modal } from "@/components/shared/modal";
 import { UserAvatar } from "@/components/shared/user-avatar";
-import { CLIENTS } from "@/lib/data/clients";
 import type { Client } from "@/lib/types";
 
 export default function ClientDirectory() {
   const [showAdd, setShowAdd] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("");
   const [clientType, setClientType] = useState("individual");
-  const [clients, setClients] = useState<Client[]>(CLIENTS);
+  const [clients, setClients] = useState<Client[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/clients").then(r => r.json()).then(d => { if (d.data) setClients(d.data); }).catch(() => {});
+    fetch("/api/clients").then(r => r.json()).then(d => { if (d.data) setClients(d.data); }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   const plans = [

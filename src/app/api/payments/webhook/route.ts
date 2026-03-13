@@ -29,22 +29,36 @@ export async function POST(request: NextRequest) {
 
         if (invoice) {
           const paymentId = event.payload.payment?.entity?.id
-          await supabase.from('invoices').update({
-            status: 'paid',
-            paid_at: new Date().toISOString(),
-            payment_method: 'razorpay',
-            razorpay_payment_id: paymentId,
-          }).eq('id', invoice.id)
 
-          await supabase.from('transactions').insert({
-            invoice_id: invoice.id,
-            client_id: invoice.client_id,
-            amount: event.payload.payment?.entity?.amount / 100,
-            type: 'payment',
-            gateway: 'razorpay',
-            gateway_ref: paymentId,
-            status: 'success',
-          })
+          // Check idempotency — skip if already paid
+          const { data: existingTxn } = await supabase
+            .from('transactions')
+            .select('id')
+            .eq('gateway_ref', paymentId)
+            .maybeSingle()
+
+          if (!existingTxn) {
+            const { error: updateErr } = await supabase.from('invoices').update({
+              status: 'paid',
+              paid_at: new Date().toISOString(),
+              payment_method: 'razorpay',
+              razorpay_payment_id: paymentId,
+            }).eq('id', invoice.id)
+
+            if (updateErr) console.error('Webhook invoice update failed:', updateErr.message)
+
+            const { error: txnErr } = await supabase.from('transactions').insert({
+              invoice_id: invoice.id,
+              client_id: invoice.client_id,
+              amount: event.payload.payment?.entity?.amount / 100,
+              type: 'payment',
+              gateway: 'razorpay',
+              gateway_ref: paymentId,
+              status: 'success',
+            })
+
+            if (txnErr) console.error('Webhook transaction insert failed:', txnErr.message)
+          }
         }
       }
       break
@@ -61,22 +75,35 @@ export async function POST(request: NextRequest) {
 
         if (invoice) {
           const paymentId = event.payload.payment?.entity?.id
-          await supabase.from('invoices').update({
-            status: 'paid',
-            paid_at: new Date().toISOString(),
-            payment_method: 'razorpay',
-            razorpay_payment_id: paymentId,
-          }).eq('id', invoice.id)
 
-          await supabase.from('transactions').insert({
-            invoice_id: invoice.id,
-            client_id: invoice.client_id,
-            amount: event.payload.payment?.entity?.amount / 100,
-            type: 'payment',
-            gateway: 'razorpay',
-            gateway_ref: paymentId,
-            status: 'success',
-          })
+          const { data: existingTxn } = await supabase
+            .from('transactions')
+            .select('id')
+            .eq('gateway_ref', paymentId)
+            .maybeSingle()
+
+          if (!existingTxn) {
+            const { error: updateErr } = await supabase.from('invoices').update({
+              status: 'paid',
+              paid_at: new Date().toISOString(),
+              payment_method: 'razorpay',
+              razorpay_payment_id: paymentId,
+            }).eq('id', invoice.id)
+
+            if (updateErr) console.error('Webhook link invoice update failed:', updateErr.message)
+
+            const { error: txnErr } = await supabase.from('transactions').insert({
+              invoice_id: invoice.id,
+              client_id: invoice.client_id,
+              amount: event.payload.payment?.entity?.amount / 100,
+              type: 'payment',
+              gateway: 'razorpay',
+              gateway_ref: paymentId,
+              status: 'success',
+            })
+
+            if (txnErr) console.error('Webhook link transaction insert failed:', txnErr.message)
+          }
         }
       }
       break
@@ -85,7 +112,7 @@ export async function POST(request: NextRequest) {
     case 'refund.processed': {
       const paymentId = event.payload.refund?.entity?.payment_id
       if (paymentId) {
-        await supabase.from('transactions').insert({
+        const { error: txnErr } = await supabase.from('transactions').insert({
           client_id: event.payload.refund?.entity?.notes?.client_id || null,
           amount: event.payload.refund?.entity?.amount / 100,
           type: 'refund',
@@ -93,6 +120,8 @@ export async function POST(request: NextRequest) {
           gateway_ref: event.payload.refund?.entity?.id,
           status: 'success',
         })
+
+        if (txnErr) console.error('Webhook refund insert failed:', txnErr.message)
       }
       break
     }

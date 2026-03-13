@@ -1,21 +1,36 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { DataTable, Td } from "@/components/shared/data-table";
 import { FilterBar, FilterSelect, FilterRight } from "@/components/shared/filter-bar";
 
-const auditEntries = [
-  { ts: "24 Feb 2026, 14:32", u: "Raghav S.", a: "KYC Approved", d: "Client: Priya Menon", ip: "122.164.xx.xx", r: "ok" },
-  { ts: "24 Feb 2026, 14:18", u: "System", a: "AUM Alert", d: "Drop 11.2% -- threshold exceeded", ip: "13.235.x.x", r: "warn" },
-  { ts: "24 Feb 2026, 13:45", u: "Sathish K.", a: "Invoice Sent", d: "INV-2602-025 to Priya Menon", ip: "49.204.xx.xx", r: "ok" },
-  { ts: "24 Feb 2026, 12:30", u: "Raghav S.", a: "Admin Login", d: "Chrome on Mac · Mumbai", ip: "122.164.xx.xx", r: "ok" },
-  { ts: "24 Feb 2026, 10:15", u: "System", a: "Copy Trading", d: "M2 DELTA rate dropped to 87%", ip: "13.235.x.x", r: "warn" },
-  { ts: "24 Feb 2026, 09:00", u: "System", a: "P&L Sync", d: "Daily sync complete -- all masters", ip: "13.235.x.x", r: "ok" },
-];
+interface AuditEntry { ts: string; u: string; a: string; d: string; ip: string; r: string }
 
 export default function AuditLogs() {
+  const [auditEntries, setAuditEntries] = useState<AuditEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/audit-logs")
+      .then(r => r.json())
+      .then(d => {
+        if (d.data) {
+          setAuditEntries(d.data.map((e: Record<string, string>) => ({
+            ts: e.created_at ? new Date(e.created_at).toLocaleString("en-IN") : "—",
+            u: e.user_name || "System",
+            a: e.action?.split(".").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ") || "—",
+            d: e.details ? (typeof e.details === "string" ? e.details : JSON.stringify(e.details)) : "—",
+            ip: e.ip_address || "—",
+            r: "ok",
+          })));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
   return (
     <div>
       <FilterBar>

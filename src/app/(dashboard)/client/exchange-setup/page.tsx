@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
@@ -51,6 +51,19 @@ export default function ExchangeSetupClientPage() {
   const [connStatus, setConnStatus] = useState("connected");
   const [testError, setTestError] = useState("");
   const [testing, setTesting] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/clients")
+      .then(r => r.json())
+      .then(d => {
+        if (d.data?.[0]?.exchange_connected === false) {
+          setConnStatus("not-connected");
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
 
   const st = statusMap[connStatus];
 

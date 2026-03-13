@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Update invoice
-  await supabase
+  const { error: dbError } = await supabase
     .from('invoices')
     .update({
       status: 'paid',
@@ -29,6 +29,8 @@ export async function POST(request: NextRequest) {
       razorpay_payment_id,
     })
     .eq('razorpay_order_id', razorpay_order_id)
+
+  if (dbError) return NextResponse.json({ error: dbError.message }, { status: 500 })
 
   return NextResponse.json({ verified: true })
 }

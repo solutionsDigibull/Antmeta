@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAuthenticatedUser, unauthorized } from '@/lib/api-helpers'
+import { getAuthenticatedUser, unauthorized, badRequest } from '@/lib/api-helpers'
+import { uploadKycDocSchema } from '@/lib/validations'
 
 export async function GET(
   _request: NextRequest,
@@ -31,13 +32,16 @@ export async function POST(
   const { clientId } = await params
   const body = await request.json()
 
+  const parsed = uploadKycDocSchema.safeParse(body)
+  if (!parsed.success) return badRequest(parsed.error.issues[0].message)
+
   const { data, error: dbError } = await supabase
     .from('kyc_documents')
     .insert({
       client_id: clientId,
-      document_type: body.document_type,
-      file_url: body.file_url,
-      file_name: body.file_name,
+      document_type: parsed.data.document_type,
+      file_url: parsed.data.file_url,
+      file_name: parsed.data.file_name,
     })
     .select()
     .single()

@@ -59,6 +59,12 @@ export const updateInvoiceSchema = z.object({
 
 // --- KYC ---
 
+export const uploadKycDocSchema = z.object({
+  document_type: z.enum(['pan', 'aadhaar', 'incorporation', 'company_pan', 'partner_pan', 'director_pan', 'gst', 'aoa_moa']),
+  file_url: z.string().url(),
+  file_name: z.string().min(1).max(255),
+})
+
 export const reviewKycSchema = z.object({
   status: z.enum(['verified', 'rejected']),
   reviewer_note: z.string().max(1000).optional(),

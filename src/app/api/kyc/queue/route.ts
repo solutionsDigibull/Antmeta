@@ -7,27 +7,23 @@ export async function GET() {
   if (error) return unauthorized()
   if (!isAdminOrSupport(getUserRole(user!))) return forbidden()
 
-  // Get clients with pending KYC
+  // Get clients with pending KYC + their docs in a single query
   const { data: clients, error: dbError } = await supabase
     .from('clients')
-    .select('*, user:users(*)')
-    .eq('kyc_status', 'pending')
+    .select('*, user:users(*), kyc_documents(*)')
+    .in('kyc_status', ['pending', 'submitted'])
     .order('joined_at', { ascending: false })
 
   if (dbError) return NextResponse.json({ error: dbError.message }, { status: 500 })
 
-  const items = []
-  for (const client of clients || []) {
-    const { data: docs } = await supabase
-      .from('kyc_documents')
-      .select('*')
-      .eq('client_id', client.id)
-      .order('uploaded_at')
-
-    items.push(
-      dbKycToKycItem(client, client.user?.name || '', client.user?.account_type || 'individual', docs || [])
+  const items = (clients || []).map((client) =>
+    dbKycToKycItem(
+      client,
+      client.user?.name || '',
+      client.user?.account_type || 'individual',
+      client.kyc_documents || []
     )
-  }
+  )
 
   return NextResponse.json({ data: items })
 }

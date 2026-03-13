@@ -8,21 +8,21 @@ import { StatusBadge } from "@/components/shared/status-badge";
 import { DataTable, Td } from "@/components/shared/data-table";
 import { Icon } from "@/components/icons";
 import { UserAvatar } from "@/components/shared/user-avatar";
-import { MASTERS } from "@/lib/data/masters";
-import { KYCQ } from "@/lib/data/kyc-queue";
-import { INVOICES } from "@/lib/data/invoices";
 import type { Master, KYCItem, Invoice } from "@/lib/types";
 
 export default function AdminDashboard() {
   const [alertDismissed, setAlertDismissed] = useState(false);
-  const [masters, setMasters] = useState<Master[]>(MASTERS);
-  const [kycQueue, setKycQueue] = useState<KYCItem[]>(KYCQ);
-  const [invoices, setInvoices] = useState<Invoice[]>(INVOICES);
+  const [masters, setMasters] = useState<Master[]>([]);
+  const [kycQueue, setKycQueue] = useState<KYCItem[]>([]);
+  const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/masters").then(r => r.json()).then(d => { if (d.data) setMasters(d.data); }).catch(() => {});
-    fetch("/api/kyc/queue").then(r => r.json()).then(d => { if (d.data) setKycQueue(d.data); }).catch(() => {});
-    fetch("/api/invoices?limit=4").then(r => r.json()).then(d => { if (d.data) setInvoices(d.data); }).catch(() => {});
+    Promise.all([
+      fetch("/api/masters").then(r => r.json()).then(d => { if (d.data) setMasters(d.data); }),
+      fetch("/api/kyc/queue").then(r => r.json()).then(d => { if (d.data) setKycQueue(d.data); }),
+      fetch("/api/invoices?limit=4").then(r => r.json()).then(d => { if (d.data) setInvoices(d.data); }),
+    ]).finally(() => setLoading(false));
   }, []);
 
   return (

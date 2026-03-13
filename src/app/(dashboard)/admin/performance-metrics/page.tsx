@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { KpiCard } from "@/components/shared/kpi-card";
 import { Panel } from "@/components/shared/panel";
 import { ProgressBar } from "@/components/shared/progress-bar";
-import { MASTERS } from "@/lib/data/masters";
 import type { Master } from "@/lib/types";
 
 const monthlyReturns = [
@@ -14,10 +13,11 @@ const monthlyReturns = [
 ];
 
 export default function PerfMetrics() {
-  const [masters, setMasters] = useState<Master[]>(MASTERS);
+  const [masters, setMasters] = useState<Master[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/masters").then(r => r.json()).then(d => { if (d.data) setMasters(d.data); }).catch(() => {});
+    fetch("/api/masters").then(r => r.json()).then(d => { if (d.data) setMasters(d.data); }).catch(() => {}).finally(() => setLoading(false));
   }, []);
 
   return (

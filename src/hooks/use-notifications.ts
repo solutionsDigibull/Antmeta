@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 interface Notification {
   id: string;
@@ -13,11 +13,12 @@ interface Notification {
 export function useNotifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
+  const cancelledRef = useRef(false);
 
-  const fetchNotifications = useCallback(async () => {
+  const load = useCallback(async () => {
     try {
       const res = await fetch("/api/notifications");
-      if (!res.ok) return;
+      if (cancelledRef.current || !res.ok) return;
       const data = await res.json();
       setNotifications(data.data || []);
       setUnreadCount(data.unread_count || 0);
@@ -35,18 +36,11 @@ export function useNotifications() {
   }, []);
 
   useEffect(() => {
-    let cancelled = false;
-    const load = async () => {
-      const res = await fetch("/api/notifications").catch(() => null);
-      if (cancelled || !res?.ok) return;
-      const data = await res.json();
-      setNotifications(data.data || []);
-      setUnreadCount(data.unread_count || 0);
-    };
+    cancelledRef.current = false;
     load();
     const interval = setInterval(load, 30000);
-    return () => { cancelled = true; clearInterval(interval); };
-  }, []);
+    return () => { cancelledRef.current = true; clearInterval(interval); };
+  }, [load]);
 
-  return { notifications, unreadCount, markAsRead, refresh: fetchNotifications };
+  return { notifications, unreadCount, markAsRead, refresh: load };
 }

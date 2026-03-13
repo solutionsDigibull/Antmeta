@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { KpiCard } from "@/components/shared/kpi-card";
 import { Panel } from "@/components/shared/panel";
@@ -7,14 +8,30 @@ import { StatusBadge } from "@/components/shared/status-badge";
 import { DataTable, Td } from "@/components/shared/data-table";
 import { AlertBox } from "@/components/shared/alert-box";
 
-const billingClients = [
-  { n: "Priya Menon", pnl: "+₹84,000", inv: "₹21,000", m: "Cashfree", st: "ok", a: "Download" },
-  { n: "Sameer Patil", pnl: "+₹1,20,000", inv: "₹30,000", m: "Cashfree", st: "warn", a: "Resend Link" },
-  { n: "Rahul Desai", pnl: "+₹56,000", inv: "₹14,000", m: "Stripe", st: "bad", a: "Remind" },
-  { n: "Global Tech", pnl: "−₹12,000", inv: "₹0", m: "--", st: "blue", a: "--" },
-];
+interface BillingRow { n: string; pnl: string; inv: string; m: string; st: string; a: string }
 
 export default function BillingCycles() {
+  const [billingClients, setBillingClients] = useState<BillingRow[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/billing-cycles")
+      .then(r => r.json())
+      .then(d => {
+        if (d.data) {
+          setBillingClients(d.data.map((c: Record<string, unknown>) => ({
+            n: (c as Record<string, string>).client_name || "—",
+            pnl: String(c.gross_pnl || "₹0"),
+            inv: String(c.platform_share || "₹0"),
+            m: "Razorpay",
+            st: c.status === "invoiced" ? "ok" : c.status === "closed" ? "warn" : "blue",
+            a: c.status === "invoiced" ? "Download" : c.status === "closed" ? "Send Link" : "--",
+          })));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
   return (
     <div>
       <AlertBox variant="i">TraaS billing: 25% of trading profits captured every 90 days. Payment links sent via Cashfree (India) or Stripe (International).</AlertBox>

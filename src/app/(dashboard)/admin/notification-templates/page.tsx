@@ -1,20 +1,33 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { FilterBar, FilterRight } from "@/components/shared/filter-bar";
 
-const templates = [
-  { n: "KYC Approved", tr: "On KYC approval", ch: "SMS + Email" },
-  { n: "KYC Rejected", tr: "On KYC rejection", ch: "SMS + Email" },
-  { n: "Invoice Generated", tr: "On invoice creation", ch: "Email + WhatsApp" },
-  { n: "Renewal Reminder (7d)", tr: "7 days before expiry", ch: "SMS + Email" },
-  { n: "Payment Received", tr: "On payment success", ch: "Email" },
-  { n: "API Key Expiry Alert", tr: "7 days before expiry", ch: "SMS + Email" },
-];
+interface Template { n: string; tr: string; ch: string; body?: string }
 
 export default function NotifTemplates() {
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/notification-templates")
+      .then(r => r.json())
+      .then(d => {
+        if (d.data) {
+          setTemplates(d.data.map((t: Record<string, string>) => ({
+            n: t.name?.split("_").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ") || "—",
+            tr: `Channel: ${t.channel}`,
+            ch: t.channel || "in_app",
+            body: t.body_template,
+          })));
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
   return (
     <div>
       <FilterBar>
