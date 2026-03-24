@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { KpiCard } from "@/components/shared/kpi-card";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { DataTable, Td } from "@/components/shared/data-table";
@@ -12,22 +11,104 @@ import { Modal } from "@/components/shared/modal";
 import { UserAvatar } from "@/components/shared/user-avatar";
 import type { Client } from "@/lib/types";
 
+interface PlanOption {
+  id: string;
+  name: string;
+  price: string;
+  color: string;
+  algo: string;
+  features: string[];
+}
+
+const PLAN_DISPLAY: Record<string, { color: string; algo: string; features: string[] }> = {
+  standard: { color: "var(--am-primary)", algo: "1 Algorithm -- M1 ALPHA", features: ["Daily P&L sync from Delta", "Email support", "GST-compliant invoicing", "Cashfree / Stripe payment"] },
+  premium: { color: "var(--am-accent)", algo: "All 3 Algorithms", features: ["Per-algorithm P&L breakdown", "Priority support", "Advanced analytics", "All master account access"] },
+  exclusive: { color: "var(--am-gold)", algo: "Admin Configured", features: ["Profit-sharing model", "90-day billing cycles", "Payment links (no gateway)", "Performance-based pricing"] },
+};
+
 export default function ClientDirectory() {
   const [showAdd, setShowAdd] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState("");
-  const [clientType, setClientType] = useState("individual");
+  const [clientType, setClientType] = useState<"individual" | "corporate">("individual");
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
+  const [plans, setPlans] = useState<PlanOption[]>([]);
+  const [adding, setAdding] = useState(false);
+
+  // Form fields
+  const [newName, setNewName] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newPhone, setNewPhone] = useState("");
+  const [newPan, setNewPan] = useState("");
 
   useEffect(() => {
-    fetch("/api/clients").then(r => r.json()).then(d => { if (d.data) setClients(d.data); }).catch(() => {}).finally(() => setLoading(false));
+    fetch("/api/clients")
+      .then(r => r.json())
+      .then(d => { if (d.data) setClients(d.data); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+
+    fetch("/api/plans")
+      .then(r => r.json())
+      .then(d => {
+        if (d.data) {
+          setPlans(d.data.map((p: Record<string, unknown>) => {
+            const key = (p.name as string).toLowerCase().replace(/[^a-z]/g, "");
+            const display = PLAN_DISPLAY[key] || { color: "var(--am-primary)", algo: "—", features: [] };
+            return {
+              id: p.id as string,
+              name: p.name as string,
+              price: p.billing_type === "profit_share" ? `${p.profit_share_pct}% of Profits` : `₹${((p.price_inr as number) || 0).toLocaleString("en-IN")} / Quarter`,
+              color: display.color,
+              algo: display.algo,
+              features: display.features,
+            };
+          }));
+        }
+      })
+      .catch(() => {});
   }, []);
 
-  const plans = [
-    { id: "standard", name: "Standard", price: "₹4,500 / Quarter", color: "var(--am-primary)", colorClass: "text-am-primary border-am-primary", algo: "1 Algorithm -- M1 ALPHA", features: ["Daily P&L sync from Delta", "Email support", "GST-compliant invoicing", "Cashfree / Stripe payment"] },
-    { id: "premium", name: "Premium", price: "₹9,000 / Quarter", color: "var(--am-accent)", colorClass: "text-am-accent border-am-accent", algo: "All 3 Algorithms", features: ["Per-algorithm P&L breakdown", "Priority support", "Advanced analytics", "All master account access"] },
-    { id: "exclusive", name: "Exclusive / TraaS", price: "25% of Profits", color: "var(--am-gold)", colorClass: "text-am-gold border-am-gold", algo: "Admin Configured", features: ["Profit-sharing model", "90-day billing cycles", "Payment links (no gateway)", "Performance-based pricing"] },
-  ];
+  const resetForm = () => {
+    setNewName(""); setNewEmail(""); setNewPhone(""); setNewPan("");
+    setSelectedPlan(""); setClientType("individual");
+  };
+
+  const handleAddClient = async () => {
+    if (!newName.trim()) { toast.error("Name is required"); return; }
+    if (!newEmail.trim()) { toast.error("Email is required"); return; }
+    if (!selectedPlan) { toast.error("Please select a subscription plan"); return; }
+    if (newPhone && !/^\d{10}$/.test(newPhone.trim())) { toast.error("Phone must be 10 digits"); return; }
+
+    setAdding(true);
+    try {
+      const res = await fetch("/api/clients", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newName.trim(),
+          email: newEmail.trim(),
+          phone: newPhone ? `+91${newPhone.trim()}` : undefined,
+          account_type: clientType,
+          pan: newPan.trim() || undefined,
+          plan_id: selectedPlan,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Failed to add client");
+        return;
+      }
+      setClients(prev => [data.data, ...prev]);
+      toast.success("Client added successfully — KYC pending");
+      setShowAdd(false);
+      resetForm();
+    } catch {
+      toast.error("Network error. Please try again.");
+    } finally {
+      setAdding(false);
+    }
+  };
 
   return (
     <div>
@@ -75,21 +156,45 @@ export default function ClientDirectory() {
       </Panel>
 
       {/* Add Client Modal */}
-      <Modal open={showAdd} onClose={() => setShowAdd(false)} title="Add New Client" width={640}>
+      <Modal open={showAdd} onClose={() => { setShowAdd(false); resetForm(); }} title="Add New Client" width={640}>
         <div className="grid grid-cols-2 gap-3 mb-4">
           <div>
             <label className="block text-xs font-semibold text-am-text-3 mb-1 uppercase">Full Name *</label>
-            <input placeholder="Client's full name" className="w-full bg-am-input-bg border border-am-border rounded-lg py-2.5 px-3 text-sm text-am-text outline-none" />
+            <input
+              value={newName}
+              onChange={(e) => setNewName(e.target.value)}
+              placeholder="Client's full name"
+              className="w-full bg-am-input-bg border border-am-border rounded-lg py-2.5 px-3 text-sm text-am-text outline-none"
+            />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-am-text-3 mb-1 uppercase">Mobile Number *</label>
-            <input placeholder="+91 9876543210" className="w-full bg-am-input-bg border border-am-border rounded-lg py-2.5 px-3 text-sm text-am-text outline-none" />
+            <label className="block text-xs font-semibold text-am-text-3 mb-1 uppercase">Mobile Number</label>
+            <input
+              value={newPhone}
+              onChange={(e) => setNewPhone(e.target.value)}
+              placeholder="9876543210"
+              className="w-full bg-am-input-bg border border-am-border rounded-lg py-2.5 px-3 text-sm text-am-text outline-none"
+            />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-am-text-3 mb-1 uppercase">Email</label>
-            <input placeholder="client@email.com" className="w-full bg-am-input-bg border border-am-border rounded-lg py-2.5 px-3 text-sm text-am-text outline-none" />
+            <label className="block text-xs font-semibold text-am-text-3 mb-1 uppercase">Email *</label>
+            <input
+              value={newEmail}
+              onChange={(e) => setNewEmail(e.target.value)}
+              placeholder="client@email.com"
+              className="w-full bg-am-input-bg border border-am-border rounded-lg py-2.5 px-3 text-sm text-am-text outline-none"
+            />
           </div>
           <div>
+            <label className="block text-xs font-semibold text-am-text-3 mb-1 uppercase">PAN</label>
+            <input
+              value={newPan}
+              onChange={(e) => setNewPan(e.target.value.toUpperCase())}
+              placeholder="ABCDE1234F"
+              className="w-full bg-am-input-bg border border-am-border rounded-lg py-2.5 px-3 text-sm text-am-text outline-none"
+            />
+          </div>
+          <div className="col-span-2">
             <label className="block text-xs font-semibold text-am-text-3 mb-1 uppercase">Account Type *</label>
             <div className="flex gap-2">
               {([["individual", "Individual"], ["corporate", "Corporate"]] as const).map(([v, l]) => (
@@ -143,17 +248,13 @@ export default function ClientDirectory() {
         </div>
 
         <div className="flex gap-2.5 justify-end pt-3 border-t border-am-border-faint">
-          <button onClick={() => setShowAdd(false)} className="text-am-text-2 hover:text-am-text border border-am-border rounded-lg px-4 py-2 text-sm font-semibold cursor-pointer">Cancel</button>
+          <button onClick={() => { setShowAdd(false); resetForm(); }} className="text-am-text-2 hover:text-am-text border border-am-border rounded-lg px-4 py-2 text-sm font-semibold cursor-pointer">Cancel</button>
           <button
-            onClick={() => {
-              if (!selectedPlan) { toast.error("Please select a subscription plan"); return; }
-              toast.success("Client added successfully -- KYC pending");
-              setShowAdd(false);
-              setSelectedPlan("");
-            }}
-            className="bg-am-primary hover:bg-am-primary-hover text-white text-sm font-semibold px-4 py-2 rounded-lg cursor-pointer"
+            onClick={handleAddClient}
+            disabled={adding}
+            className="bg-am-primary hover:bg-am-primary-hover text-white text-sm font-semibold px-4 py-2 rounded-lg cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Add Client
+            {adding ? "Adding…" : "Add Client"}
           </button>
         </div>
       </Modal>

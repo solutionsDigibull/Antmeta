@@ -30,7 +30,11 @@ export default function LoginPage() {
         {(["admin", "client"] as const).map(type => (
           <div
             key={type}
+            role="button"
+            tabIndex={0}
+            aria-pressed={loginType === type}
             onClick={() => { setLoginType(type); setLoginError(""); }}
+            onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { setLoginType(type); setLoginError(""); } }}
             className={`flex-1 text-center py-2 rounded-[7px] text-sm font-semibold cursor-pointer transition-all capitalize ${
               loginType === type ? "bg-am-primary text-white" : "text-am-text-3"
             }`}

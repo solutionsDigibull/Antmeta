@@ -53,6 +53,7 @@ export interface Invoice {
 }
 
 export interface Ticket {
+  uuid: string;
   id: string;
   client: string;
   subj: string;
@@ -93,4 +94,5 @@ export interface SignupData {
   accountType: "individual" | "corporate";
   password: string;
   confirmPw: string;
+  phone?: string;
 }

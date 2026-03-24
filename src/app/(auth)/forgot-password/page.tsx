@@ -13,13 +13,13 @@ export default function ForgotPasswordPage() {
     if (!email) return;
     const supabase = createClient();
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/login`,
+      redirectTo: `${window.location.origin}/reset-password`,
     });
     if (error) {
       toast.error(error.message);
       return;
     }
-    toast.success("Reset link sent! Check your email/SMS.");
+    toast.success("Reset link sent! Check your email inbox.");
     router.push("/login");
   };
 
@@ -31,15 +31,15 @@ export default function ForgotPasswordPage() {
       </div>
 
       <h2 className="font-poppins text-xl font-bold text-am-text mb-2">Forgot Password</h2>
-      <p className="text-sm text-am-text-3 mb-5">Enter your email or mobile number to receive a reset link.</p>
+      <p className="text-sm text-am-text-3 mb-5">Enter your email address to receive a password reset link.</p>
 
       <div className="mb-4">
-        <label className="block text-sm font-semibold text-am-text-4 mb-1 uppercase tracking-wide">Email or Mobile</label>
+        <label className="block text-sm font-semibold text-am-text-4 mb-1 uppercase tracking-wide">Email Address</label>
         <input
-          type="text"
+          type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
-          placeholder="your@email.com or +91 9876543210"
+          placeholder="your@email.com"
           onKeyDown={e => e.key === "Enter" && handleReset()}
           className="w-full bg-am-input-bg border border-am-border rounded-lg px-3.5 py-3 text-base text-am-text placeholder:text-am-text-3 outline-none"
         />

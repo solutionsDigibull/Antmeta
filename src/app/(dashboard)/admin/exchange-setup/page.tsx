@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
@@ -7,7 +8,37 @@ import { DataTable, Td } from "@/components/shared/data-table";
 import { AlertBox } from "@/components/shared/alert-box";
 import { InfoGrid } from "@/components/shared/info-grid";
 
+interface ConnectionRow {
+  id: string;
+  client_name: string;
+  client_display_id: string;
+  status: "connected" | "api-added" | "disconnected";
+  last_checked: string;
+}
+
 export default function ExchangeSetup() {
+  const [connections, setConnections] = useState<ConnectionRow[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/exchange/connections")
+      .then(r => r.json())
+      .then(d => { if (d.data) setConnections(d.data); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
+  }, []);
+
+  const copyIP = () => {
+    navigator.clipboard
+      .writeText("13.235.112.48")
+      .then(() => toast.success("IP copied to clipboard!"))
+      .catch(() => toast("13.235.112.48"));
+  };
+
+  const connected = connections.filter(c => c.status === "connected").length;
+  const disconnected = connections.filter(c => c.status === "disconnected").length;
+  const expiring = connections.filter(c => c.status === "api-added").length;
+
   return (
     <div>
       <AlertBox variant="i">Master server IP must be whitelisted by clients on Delta Exchange before entering API keys.</AlertBox>
@@ -19,7 +50,7 @@ export default function ExchangeSetup() {
             <div className="text-xs text-am-text-3 mb-1.5 tracking-wide uppercase">Whitelist this IP on Delta Exchange</div>
             <div className="font-poppins text-[22px] font-bold text-am-primary tracking-widest">13.235.112.48</div>
             <button
-              onClick={() => toast.success("IP copied to clipboard!")}
+              onClick={copyIP}
               className="mt-2.5 bg-transparent border border-am-border rounded-md px-3.5 py-1 text-am-text-2 text-[13px] cursor-pointer hover:bg-am-bg-surface"
             >
               Copy IP
@@ -28,7 +59,7 @@ export default function ExchangeSetup() {
           <div className="p-2.5 bg-[rgba(0,147,182,.04)] rounded-[7px] border border-am-border-faint text-[13px] text-am-text-3 leading-relaxed mb-2.5">
             This IP must be added to your Delta Exchange API whitelist. Without it, trades cannot be replicated to client accounts.
           </div>
-          <InfoGrid items={[["Region", "Mumbai, India"], ["Uptime", "99.98%", "var(--am-success)"], ["Last Health Check", "6h ago"], ["Last Restart", "7 Feb 2026"]]} />
+          <InfoGrid items={[["Region", "Mumbai, India"], ["Uptime", "99.98%", "var(--am-success)"], ["Connected Clients", String(connected), "var(--am-success)"], ["Disconnected", String(disconnected), disconnected > 0 ? "var(--am-danger)" : undefined]]} />
         </Panel>
 
         {/* Setup Guide */}
@@ -60,41 +91,49 @@ export default function ExchangeSetup() {
       {/* Client API Health */}
       <Panel
         title="Client API Health"
-        subtitle="4 keys expiring within 7 days"
+        subtitle={loading ? "Loading…" : `${connections.length} connections · ${expiring} not verified`}
         pip="g"
         right={
-          <button onClick={() => toast.info("Health check running...")} className="bg-am-secondary hover:bg-am-secondary/80 text-white text-sm font-semibold px-3 py-1.5 rounded-lg cursor-pointer">
+          <button
+            onClick={() => toast.info("Individual clients must re-test their connections from their Exchange Setup page.")}
+            className="bg-am-secondary hover:bg-am-secondary/80 text-white text-sm font-semibold px-3 py-1.5 rounded-lg cursor-pointer"
+          >
             Test All Connections
           </button>
         }
       >
-        <DataTable headers={["Client", "ID", "Status", "Last Checked", "Expiry", "Action"]}>
-          {[
-            { n: "Rajesh Kumar", id: "260116100001", st: "ok", lc: "6h ago", ex: "15 Mar 2026" },
-            { n: "TechCorp Pvt", id: "260116100002", st: "ok", lc: "6h ago", ex: "⚠ 2 Mar 2026" },
-            { n: "Priya Menon", id: "260116100003", st: "warn", lc: "12h ago", ex: "⚠ 1 Mar 2026" },
-            { n: "Kiran Sharma", id: "260116100005", st: "bad", lc: "2d ago", ex: "--" },
-          ].map(c => (
+        <DataTable headers={["Client", "ID", "Status", "Last Verified", "Action"]}>
+          {connections.map(c => (
             <tr key={c.id}>
-              <Td bold>{c.n}</Td>
-              <Td>{c.id}</Td>
+              <Td bold>{c.client_name}</Td>
+              <Td>{c.client_display_id}</Td>
               <Td>
-                <span className="text-[13px] mr-1">{c.st === "ok" ? "\u{1F7E2}" : c.st === "warn" ? "\u{1F7E1}" : "\u{1F534}"}</span>
-                <StatusBadge variant={c.st}>{c.st === "ok" ? "Connected & Live" : c.st === "warn" ? "Expiring Soon" : "Disconnected"}</StatusBadge>
+                <span className="text-[13px] mr-1">
+                  {c.status === "connected" ? "\u{1F7E2}" : c.status === "api-added" ? "\u{1F7E1}" : "\u{1F534}"}
+                </span>
+                <StatusBadge variant={c.status === "connected" ? "ok" : c.status === "api-added" ? "warn" : "bad"}>
+                  {c.status === "connected" ? "Connected & Live" : c.status === "api-added" ? "Not Verified" : "Disconnected"}
+                </StatusBadge>
               </Td>
-              <Td>{c.lc}</Td>
-              <Td>{c.ex}</Td>
+              <Td>{c.last_checked}</Td>
               <Td>
                 <button
-                  onClick={() => toast.info("Action triggered")}
-                  className={`text-sm font-semibold px-2.5 py-1 rounded-md cursor-pointer ${c.st === "bad" ? "bg-am-primary text-white" : "text-am-text-2 hover:text-am-text"}`}
+                  onClick={() => toast.info(`${c.client_name} must re-test their connection from their Exchange Setup page.`)}
+                  className={`text-xs font-semibold px-2.5 py-1 rounded-md cursor-pointer ${
+                    c.status === "disconnected"
+                      ? "bg-am-primary text-white"
+                      : "text-am-text-2 hover:text-am-text border border-am-border"
+                  }`}
                 >
-                  {c.st === "bad" ? "Reconnect" : "Test"}
+                  {c.status === "disconnected" ? "Notify Client" : "Check"}
                 </button>
               </Td>
             </tr>
           ))}
         </DataTable>
+        {!loading && connections.length === 0 && (
+          <div className="text-sm text-am-text-3 text-center py-6">No exchange connections found. Clients need to set up their API keys.</div>
+        )}
       </Panel>
     </div>
   );

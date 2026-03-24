@@ -14,7 +14,7 @@ export default function CopyTrading() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/masters").then(r => r.json()).then(d => { if (d.data) setMasters(d.data); }).catch(() => {}).finally(() => setLoading(false));
+    fetch("/api/masters").then(r => r.json()).then(d => { if (d.data) setMasters(d.data); }).catch(err => console.error("masters fetch:", err)).finally(() => setLoading(false));
   }, []);
 
   return (
@@ -30,6 +30,11 @@ export default function CopyTrading() {
       </div>
 
       {/* Master Account Cards */}
+      {loading ? (
+        <div className="text-center text-am-text-3 py-10">Loading master accounts…</div>
+      ) : masters.length === 0 ? (
+        <div className="text-center text-am-text-3 py-10">No master accounts found.</div>
+      ) : (
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-3.5 mb-3.5">
         {masters.map((m) => (
           <Panel
@@ -70,6 +75,7 @@ export default function CopyTrading() {
           </Panel>
         ))}
       </div>
+      )}
     </div>
   );
 }

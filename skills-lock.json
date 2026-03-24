@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "skills": {
+    "supabase": {
+      "source": "alinaqi/claude-bootstrap",
+      "sourceType": "github",
+      "computedHash": "d152a50f58b007e1bb7bdd47d5a21575141424122e31f203308cf1474fae71ba"
+    }
+  }
+}

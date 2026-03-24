@@ -6,22 +6,66 @@ import { KpiCard } from "@/components/shared/kpi-card";
 import { Panel } from "@/components/shared/panel";
 import { StatusBadge } from "@/components/shared/status-badge";
 import { DataTable, Td } from "@/components/shared/data-table";
+import { Modal } from "@/components/shared/modal";
 import type { Partner } from "@/lib/types";
 
 export default function PartnersScreen() {
   const [partners, setPartners] = useState<Partner[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAdd, setShowAdd] = useState(false);
+  const [newPartnerName, setNewPartnerName] = useState("");
+  const [newPartnerUserId, setNewPartnerUserId] = useState("");
+  const [adding, setAdding] = useState(false);
 
   useEffect(() => {
-    fetch("/api/partners").then(r => r.json()).then(d => { if (d.data) setPartners(d.data); }).catch(() => {}).finally(() => setLoading(false));
+    fetch("/api/partners")
+      .then(r => r.json())
+      .then(d => { if (d.data) setPartners(d.data); })
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
+
+  const resetForm = () => { setNewPartnerName(""); setNewPartnerUserId(""); };
+
+  const handleAddPartner = async () => {
+    if (!newPartnerName.trim()) { toast.error("Partner name is required"); return; }
+    setAdding(true);
+    try {
+      const body: Record<string, string> = { name: newPartnerName.trim() };
+      if (newPartnerUserId.trim()) body.user_id = newPartnerUserId.trim();
+
+      const res = await fetch("/api/partners", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Failed to add partner");
+        return;
+      }
+      setPartners(prev => [data.data, ...prev]);
+      toast.success("Partner created successfully");
+      setShowAdd(false);
+      resetForm();
+    } catch {
+      toast.error("Network error. Please try again.");
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  const totalAum = partners.reduce((sum, p) => {
+    const n = parseFloat(p.aum.replace(/[^\d.]/g, "")) || 0;
+    return sum + n;
+  }, 0);
 
   return (
     <div>
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-3.5">
-        <KpiCard value="14" label="Total Partners" sub="11 Active · 3 Under Review" />
-        <KpiCard value="102" label="Referred Clients" sub="41% of total client base" />
+        <KpiCard value={String(partners.length)} label="Total Partners" sub={`${partners.filter(p => p.status === "active").length} Active · ${partners.filter(p => p.status === "review").length} Under Review`} />
+        <KpiCard value={String(partners.reduce((s, p) => s + p.clients, 0))} label="Referred Clients" />
         <KpiCard value="₹4.74L" label="Total TraaS Revenue" sub="This 90-day cycle" />
         <KpiCard value="₹33.8K" label="Avg Revenue/Partner" sub="Per 90-day cycle" />
       </div>
@@ -30,7 +74,10 @@ export default function PartnersScreen() {
         title="Partner Directory"
         pip="p"
         right={
-          <button onClick={() => toast.success("Partner created")} className="bg-am-primary hover:bg-am-primary-hover text-white text-sm font-semibold px-3 py-1.5 rounded-lg cursor-pointer">
+          <button
+            onClick={() => setShowAdd(true)}
+            className="bg-am-primary hover:bg-am-primary-hover text-white text-sm font-semibold px-3 py-1.5 rounded-lg cursor-pointer"
+          >
             + Add Partner
           </button>
         }
@@ -55,6 +102,46 @@ export default function PartnersScreen() {
           ))}
         </DataTable>
       </Panel>
+
+      {/* Add Partner Modal */}
+      <Modal open={showAdd} onClose={() => { setShowAdd(false); resetForm(); }} title="Add New Partner" width={420}>
+        <div className="mb-4 space-y-3">
+          <div>
+            <label className="block text-xs font-semibold text-am-text-3 mb-1 uppercase">Partner Name *</label>
+            <input
+              value={newPartnerName}
+              onChange={(e) => setNewPartnerName(e.target.value)}
+              placeholder="e.g. Sharma Associates"
+              className="w-full bg-am-input-bg border border-am-border rounded-lg py-2.5 px-3 text-sm text-am-text outline-none"
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-semibold text-am-text-3 mb-1 uppercase">Link to User ID (Optional)</label>
+            <input
+              value={newPartnerUserId}
+              onChange={(e) => setNewPartnerUserId(e.target.value)}
+              placeholder="Existing user UUID"
+              className="w-full bg-am-input-bg border border-am-border rounded-lg py-2.5 px-3 text-sm text-am-text outline-none font-mono"
+            />
+            <p className="text-[12px] text-am-text-3 mt-1">Leave blank to create without linking a user account.</p>
+          </div>
+        </div>
+        <div className="flex gap-2.5 justify-end pt-3 border-t border-am-border-faint">
+          <button
+            onClick={() => { setShowAdd(false); resetForm(); }}
+            className="text-am-text-2 hover:text-am-text border border-am-border rounded-lg px-4 py-2 text-sm font-semibold cursor-pointer"
+          >
+            Cancel
+          </button>
+          <button
+            onClick={handleAddPartner}
+            disabled={adding}
+            className="bg-am-primary hover:bg-am-primary-hover text-white text-sm font-semibold px-4 py-2 rounded-lg cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {adding ? "Creating…" : "Add Partner"}
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 }

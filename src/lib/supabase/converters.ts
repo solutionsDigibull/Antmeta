@@ -152,6 +152,7 @@ export function dbTicketToTicket(
   clientName: string
 ): Ticket {
   return {
+    uuid: row.id,
     id: row.ticket_number,
     client: clientName,
     subj: row.subject,

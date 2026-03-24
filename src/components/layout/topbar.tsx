@@ -35,7 +35,7 @@ export function Topbar() {
       {/* Title + breadcrumb */}
       <div className="flex-1 min-w-0">
         <div className="font-poppins text-base font-semibold text-am-text truncate">{title}</div>
-        <div className="text-xs text-am-text-3 truncate">traders.antmeta.ai / {portal} / {title}</div>
+        <div className="hidden sm:block text-xs text-am-text-3 truncate">traders.antmeta.ai / {portal} / {title}</div>
       </div>
 
       {/* Search */}

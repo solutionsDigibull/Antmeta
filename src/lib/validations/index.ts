@@ -59,10 +59,27 @@ export const updateInvoiceSchema = z.object({
 
 // --- KYC ---
 
+const ALLOWED_KYC_EXTENSIONS = /\.(pdf|jpg|jpeg|png|webp)$/i
+const PATH_TRAVERSAL = /([/\\]|\.\.)/
+
 export const uploadKycDocSchema = z.object({
   document_type: z.enum(['pan', 'aadhaar', 'incorporation', 'company_pan', 'partner_pan', 'director_pan', 'gst', 'aoa_moa']),
-  file_url: z.string().url(),
-  file_name: z.string().min(1).max(255),
+  file_url: z.string().url().refine(
+    (url) => {
+      try {
+        const host = new URL(url).hostname
+        return host.endsWith('.supabase.co')
+      } catch {
+        return false
+      }
+    },
+    'File URL must be from project storage'
+  ),
+  file_name: z.string()
+    .min(1)
+    .max(255)
+    .refine((n) => !PATH_TRAVERSAL.test(n), 'File name must not contain path separators')
+    .refine((n) => ALLOWED_KYC_EXTENSIONS.test(n), 'Only PDF, JPG, PNG, or WEBP files are allowed'),
 })
 
 export const reviewKycSchema = z.object({
@@ -108,6 +125,14 @@ export const createNotificationTemplateSchema = z.object({
   subject: z.string().max(500).optional(),
   body_template: z.string().min(1).max(5000),
   variables: z.array(z.string()).default([]),
+})
+
+// --- Exchange ---
+
+export const exchangeConnectionSchema = z.object({
+  api_key: z.string().min(10).max(200),
+  secret_key: z.string().min(10).max(200),
+  label: z.string().max(100).optional(),
 })
 
 // --- Query params ---

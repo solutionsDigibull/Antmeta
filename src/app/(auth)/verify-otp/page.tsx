@@ -8,7 +8,7 @@ import { toast } from "sonner";
 
 export default function VerifyOtpPage() {
   const router = useRouter();
-  const { verifyOtp, signupData, loginError, setLoginError } = useAuth();
+  const { verifyOtp, resendOtp, signupData, loginError, setLoginError } = useAuth();
   const [otpCode, setOtpCode] = useState(["", "", "", "", "", ""]);
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
@@ -38,12 +38,12 @@ export default function VerifyOtpPage() {
     <div className="bg-am-login-card-bg border border-am-border-strong rounded-2xl p-8 backdrop-blur-md">
       <div className="text-center mb-6">
         <div className="font-poppins text-2xl font-bold text-am-primary tracking-wide">AntMeta</div>
-        <div className="text-sm text-am-text-3 mt-1">Verify your mobile number</div>
+        <div className="text-sm text-am-text-3 mt-1">Verify your email address</div>
       </div>
 
       <h2 className="font-poppins text-xl font-bold text-am-text mb-2 text-center">Enter OTP</h2>
       <p className="text-sm text-am-text-3 text-center mb-6">
-        We sent a 6-digit code to +91 {signupData.mobile || "XXXXXXXXXX"}
+        We sent a 6-digit code to {signupData.email || "your email"}
       </p>
 
       {loginError && (
@@ -75,7 +75,7 @@ export default function VerifyOtpPage() {
       </button>
 
       <div className="flex items-center justify-center gap-4 mt-4">
-        <button onClick={() => toast.success("OTP resent")} className="text-sm text-am-primary font-semibold cursor-pointer bg-transparent border-none">
+        <button onClick={resendOtp} className="text-sm text-am-primary font-semibold cursor-pointer bg-transparent border-none">
           Resend OTP
         </button>
         <button onClick={() => router.push("/signup")} className="text-sm text-am-text-3 font-semibold cursor-pointer bg-transparent border-none">

@@ -39,17 +39,14 @@ export default function SignupPage() {
       )}
 
       <div className="mb-4">
-        <label className="block text-sm font-semibold text-am-text-4 mb-1 uppercase tracking-wide">Mobile Number</label>
-        <div className="flex gap-2">
-          <div className="bg-am-input-bg border border-am-border rounded-lg px-3 py-3 text-sm text-am-text-2 font-semibold shrink-0">+91</div>
-          <input
-            type="tel"
-            value={data.mobile}
-            onChange={e => update("mobile", e.target.value.replace(/\D/g, "").slice(0, 10))}
-            placeholder="9876543210"
-            className="flex-1 bg-am-input-bg border border-am-border rounded-lg px-3.5 py-3 text-base text-am-text placeholder:text-am-text-3 outline-none"
-          />
-        </div>
+        <label className="block text-sm font-semibold text-am-text-4 mb-1 uppercase tracking-wide">Email Address</label>
+        <input
+          type="email"
+          value={data.email}
+          onChange={e => update("email", e.target.value)}
+          placeholder="you@email.com"
+          className="w-full bg-am-input-bg border border-am-border rounded-lg px-3.5 py-3 text-base text-am-text placeholder:text-am-text-3 outline-none"
+        />
       </div>
 
       <div className="mb-4">
@@ -64,14 +61,17 @@ export default function SignupPage() {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-semibold text-am-text-4 mb-1 uppercase tracking-wide">Email (Optional)</label>
-        <input
-          type="email"
-          value={data.email}
-          onChange={e => update("email", e.target.value)}
-          placeholder="you@email.com"
-          className="w-full bg-am-input-bg border border-am-border rounded-lg px-3.5 py-3 text-base text-am-text placeholder:text-am-text-3 outline-none"
-        />
+        <label className="block text-sm font-semibold text-am-text-4 mb-1 uppercase tracking-wide">Mobile Number (Optional)</label>
+        <div className="flex gap-2">
+          <div className="bg-am-input-bg border border-am-border rounded-lg px-3 py-3 text-sm text-am-text-2 font-semibold shrink-0">+91</div>
+          <input
+            type="tel"
+            value={data.mobile}
+            onChange={e => update("mobile", e.target.value.replace(/\D/g, "").slice(0, 10))}
+            placeholder="9876543210"
+            className="flex-1 bg-am-input-bg border border-am-border rounded-lg px-3.5 py-3 text-base text-am-text placeholder:text-am-text-3 outline-none"
+          />
+        </div>
       </div>
 
       <div className="mb-4">
@@ -80,7 +80,11 @@ export default function SignupPage() {
           {(["individual", "corporate"] as const).map(t => (
             <div
               key={t}
+              role="button"
+              tabIndex={0}
+              aria-pressed={data.accountType === t}
               onClick={() => update("accountType", t)}
+              onKeyDown={e => { if (e.key === "Enter" || e.key === " ") update("accountType", t); }}
               className={`flex-1 text-center py-2.5 rounded-lg border cursor-pointer transition-all ${
                 data.accountType === t ? "border-am-primary bg-am-primary-light text-am-primary font-semibold" : "border-am-border text-am-text-3"
               }`}
@@ -92,7 +96,7 @@ export default function SignupPage() {
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 mb-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
         <div>
           <label className="block text-sm font-semibold text-am-text-4 mb-1 uppercase tracking-wide">Password</label>
           <input

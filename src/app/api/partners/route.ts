@@ -29,11 +29,23 @@ export async function POST(request: NextRequest) {
   const parsed = createPartnerSchema.safeParse(body)
   if (!parsed.success) return badRequest(parsed.error.message)
 
+  // Verify the target user exists before creating a partner record
+  let targetUserId = user!.id
+  if (parsed.data.user_id) {
+    const { data: targetUser } = await supabase
+      .from('users')
+      .select('id')
+      .eq('id', parsed.data.user_id)
+      .maybeSingle()
+    if (!targetUser) return badRequest('Specified user does not exist')
+    targetUserId = parsed.data.user_id
+  }
+
   const { data, error: dbError } = await supabase
     .from('partners')
     .insert({
       name: parsed.data.name,
-      user_id: parsed.data.user_id || user!.id,
+      user_id: targetUserId,
     })
     .select()
     .single()

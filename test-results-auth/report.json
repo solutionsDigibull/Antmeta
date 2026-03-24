@@ -1,0 +1,2525 @@
+{
+  "summary": {
+    "total": 478,
+    "passed": 355,
+    "issues": 123,
+    "passRate": "74%"
+  },
+  "passed": [
+    {
+      "page": "auth-login",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-login",
+      "vp": "mobile",
+      "check": "Admin Portal tab (div toggle)"
+    },
+    {
+      "page": "auth-login",
+      "vp": "mobile",
+      "check": "Client Portal tab (div toggle)"
+    },
+    {
+      "page": "auth-login",
+      "vp": "mobile",
+      "check": "Email or Mobile input (type=text)"
+    },
+    {
+      "page": "auth-login",
+      "vp": "mobile",
+      "check": "Password input"
+    },
+    {
+      "page": "auth-login",
+      "vp": "mobile",
+      "check": "Sign In button"
+    },
+    {
+      "page": "auth-login",
+      "vp": "mobile",
+      "check": "Forgot Password button"
+    },
+    {
+      "page": "auth-login",
+      "vp": "mobile",
+      "check": "Security audit note OR Admin info"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "AntMeta brand header"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "Email input (type=email)"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "Full name input"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "Mobile tel input (+91 prefix visible)"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "+91 prefix label"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "Password input"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "Confirm password input"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "Create Account button"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "Sign In button (footer)"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "mobile",
+      "check": "OTP input boxes (×6)"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "mobile",
+      "check": "Verify & Continue button"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "mobile",
+      "check": "Resend OTP button"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "mobile",
+      "check": "Back link/button"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "mobile",
+      "check": "Email/Mobile input"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "mobile",
+      "check": "Send Reset Link button"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "mobile",
+      "check": "Back to Sign In link"
+    },
+    {
+      "page": "auth-login",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-login",
+      "vp": "tablet",
+      "check": "Admin Portal tab (div toggle)"
+    },
+    {
+      "page": "auth-login",
+      "vp": "tablet",
+      "check": "Client Portal tab (div toggle)"
+    },
+    {
+      "page": "auth-login",
+      "vp": "tablet",
+      "check": "Email or Mobile input (type=text)"
+    },
+    {
+      "page": "auth-login",
+      "vp": "tablet",
+      "check": "Password input"
+    },
+    {
+      "page": "auth-login",
+      "vp": "tablet",
+      "check": "Sign In button"
+    },
+    {
+      "page": "auth-login",
+      "vp": "tablet",
+      "check": "Forgot Password button"
+    },
+    {
+      "page": "auth-login",
+      "vp": "tablet",
+      "check": "Security audit note OR Admin info"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "AntMeta brand header"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "Email input (type=email)"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "Full name input"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "Mobile tel input (+91 prefix visible)"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "+91 prefix label"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "Password input"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "Confirm password input"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "Create Account button"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "Sign In button (footer)"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "tablet",
+      "check": "OTP input boxes (×6)"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "tablet",
+      "check": "Verify & Continue button"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "tablet",
+      "check": "Resend OTP button"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "tablet",
+      "check": "Back link/button"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "tablet",
+      "check": "Email/Mobile input"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "tablet",
+      "check": "Send Reset Link button"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "tablet",
+      "check": "Back to Sign In link"
+    },
+    {
+      "page": "auth-login",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-login",
+      "vp": "desktop",
+      "check": "Admin Portal tab (div toggle)"
+    },
+    {
+      "page": "auth-login",
+      "vp": "desktop",
+      "check": "Client Portal tab (div toggle)"
+    },
+    {
+      "page": "auth-login",
+      "vp": "desktop",
+      "check": "Email or Mobile input (type=text)"
+    },
+    {
+      "page": "auth-login",
+      "vp": "desktop",
+      "check": "Password input"
+    },
+    {
+      "page": "auth-login",
+      "vp": "desktop",
+      "check": "Sign In button"
+    },
+    {
+      "page": "auth-login",
+      "vp": "desktop",
+      "check": "Forgot Password button"
+    },
+    {
+      "page": "auth-login",
+      "vp": "desktop",
+      "check": "Security audit note OR Admin info"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "AntMeta brand header"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "Email input (type=email)"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "Full name input"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "Mobile tel input (+91 prefix visible)"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "+91 prefix label"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "Password input"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "Confirm password input"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "Create Account button"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "Sign In button (footer)"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "desktop",
+      "check": "OTP input boxes (×6)"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "desktop",
+      "check": "Verify & Continue button"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "desktop",
+      "check": "Resend OTP button"
+    },
+    {
+      "page": "auth-verify-otp",
+      "vp": "desktop",
+      "check": "Back link/button"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "desktop",
+      "check": "Email/Mobile input"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "desktop",
+      "check": "Send Reset Link button"
+    },
+    {
+      "page": "auth-forgot-password",
+      "vp": "desktop",
+      "check": "Back to Sign In link"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "tablet",
+      "check": "AntMeta logo in sidebar"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "tablet",
+      "check": "KPI: Total Clients"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "tablet",
+      "check": "KPI: Total AUM"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "tablet",
+      "check": "KPI: Active Partners"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "tablet",
+      "check": "Master accounts section"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "tablet",
+      "check": "KYC queue section"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "tablet",
+      "check": "Recent invoices section"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "tablet",
+      "check": "Activity feed"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "tablet",
+      "check": "Add Client button"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "tablet",
+      "check": "Client table"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "tablet",
+      "check": "Table column headers"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "tablet",
+      "check": "KPI: Total Partners"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "tablet",
+      "check": "KPI: Revenue"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "tablet",
+      "check": "Add Partner button"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "tablet",
+      "check": "Partners table"
+    },
+    {
+      "page": "admin-kyc-verification",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-kyc-verification",
+      "vp": "tablet",
+      "check": "KPI: Pending"
+    },
+    {
+      "page": "admin-kyc-verification",
+      "vp": "tablet",
+      "check": "KPI: Approved"
+    },
+    {
+      "page": "admin-kyc-verification",
+      "vp": "tablet",
+      "check": "Individual/Corporate filter tabs"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "tablet",
+      "check": "KPI: Open tickets"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "tablet",
+      "check": "KPI: Resolved"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "tablet",
+      "check": "Tickets table"
+    },
+    {
+      "page": "admin-live-chat",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-live-chat",
+      "vp": "tablet",
+      "check": "Ticket list panel"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "tablet",
+      "check": "Server IP display"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "tablet",
+      "check": "Copy IP button"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "tablet",
+      "check": "Client API health table"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "tablet",
+      "check": "Test Connections button"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "tablet",
+      "check": "KPI: Active Copies"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "tablet",
+      "check": "Master: M2 DELTA"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "tablet",
+      "check": "Pause/Settings buttons"
+    },
+    {
+      "page": "admin-plan-management",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-plan-management",
+      "vp": "tablet",
+      "check": "Standard plan"
+    },
+    {
+      "page": "admin-plan-management",
+      "vp": "tablet",
+      "check": "Premium plan"
+    },
+    {
+      "page": "admin-plan-management",
+      "vp": "tablet",
+      "check": "Exclusive plan"
+    },
+    {
+      "page": "admin-billing-cycles",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-billing-cycles",
+      "vp": "tablet",
+      "check": "KPI: Cycle Revenue"
+    },
+    {
+      "page": "admin-billing-cycles",
+      "vp": "tablet",
+      "check": "Billing table"
+    },
+    {
+      "page": "admin-billing-cycles",
+      "vp": "tablet",
+      "check": "Run Billing button"
+    },
+    {
+      "page": "admin-invoices",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-invoices",
+      "vp": "tablet",
+      "check": "Invoice table"
+    },
+    {
+      "page": "admin-invoices",
+      "vp": "tablet",
+      "check": "Paid status"
+    },
+    {
+      "page": "admin-invoices",
+      "vp": "tablet",
+      "check": "Pending status"
+    },
+    {
+      "page": "admin-pnl-analytics",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-pnl-analytics",
+      "vp": "tablet",
+      "check": "P&L KPI cards"
+    },
+    {
+      "page": "admin-transaction-logs",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-transaction-logs",
+      "vp": "tablet",
+      "check": "Transaction table"
+    },
+    {
+      "page": "admin-partner-performance",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-partner-performance",
+      "vp": "tablet",
+      "check": "KPI cards"
+    },
+    {
+      "page": "admin-partner-performance",
+      "vp": "tablet",
+      "check": "Leaderboard table"
+    },
+    {
+      "page": "admin-notification-templates",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-notification-templates",
+      "vp": "tablet",
+      "check": "New Template button"
+    },
+    {
+      "page": "admin-notification-templates",
+      "vp": "tablet",
+      "check": "Template cards or list"
+    },
+    {
+      "page": "admin-audit-logs",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-audit-logs",
+      "vp": "tablet",
+      "check": "Audit log table"
+    },
+    {
+      "page": "admin-audit-logs",
+      "vp": "tablet",
+      "check": "Export button"
+    },
+    {
+      "page": "admin-audit-logs",
+      "vp": "tablet",
+      "check": "Timestamp column"
+    },
+    {
+      "page": "admin-user-roles",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-user-roles",
+      "vp": "tablet",
+      "check": "User list content"
+    },
+    {
+      "page": "admin-security",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-security",
+      "vp": "tablet",
+      "check": "Security content"
+    },
+    {
+      "page": "admin-performance-metrics",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-performance-metrics",
+      "vp": "tablet",
+      "check": "Metrics content"
+    },
+    {
+      "page": "admin-masters",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-masters",
+      "vp": "tablet",
+      "check": "Master accounts list"
+    },
+    {
+      "page": "admin-faqs",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-faqs",
+      "vp": "tablet",
+      "check": "FAQ accordion items"
+    },
+    {
+      "page": "admin-help-center",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-help-center",
+      "vp": "tablet",
+      "check": "Help content"
+    },
+    {
+      "page": "admin-user-guidelines",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-user-guidelines",
+      "vp": "tablet",
+      "check": "Guidelines content"
+    },
+    {
+      "page": "admin-sidebar",
+      "vp": "tablet",
+      "check": "Sidebar visible on tablet"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "desktop",
+      "check": "AntMeta logo in sidebar"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "desktop",
+      "check": "KPI: Total Clients"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "desktop",
+      "check": "KPI: Total AUM"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "desktop",
+      "check": "KPI: Active Partners"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "desktop",
+      "check": "Master accounts section"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "desktop",
+      "check": "KYC queue section"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "desktop",
+      "check": "Recent invoices section"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "desktop",
+      "check": "Activity feed"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "desktop",
+      "check": "Search input"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "desktop",
+      "check": "Add Client button"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "desktop",
+      "check": "Client table"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "desktop",
+      "check": "Table column headers"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "desktop",
+      "check": "KPI: Total Partners"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "desktop",
+      "check": "KPI: Revenue"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "desktop",
+      "check": "Add Partner button"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "desktop",
+      "check": "Partners table"
+    },
+    {
+      "page": "admin-kyc-verification",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-kyc-verification",
+      "vp": "desktop",
+      "check": "KPI: Pending"
+    },
+    {
+      "page": "admin-kyc-verification",
+      "vp": "desktop",
+      "check": "KPI: Approved"
+    },
+    {
+      "page": "admin-kyc-verification",
+      "vp": "desktop",
+      "check": "Individual/Corporate filter tabs"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "desktop",
+      "check": "KPI: Open tickets"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "desktop",
+      "check": "KPI: Resolved"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "desktop",
+      "check": "Tickets table"
+    },
+    {
+      "page": "admin-live-chat",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-live-chat",
+      "vp": "desktop",
+      "check": "Ticket list panel"
+    },
+    {
+      "page": "admin-live-chat",
+      "vp": "desktop",
+      "check": "Message input area"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "desktop",
+      "check": "Server IP display"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "desktop",
+      "check": "Copy IP button"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "desktop",
+      "check": "Client API health table"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "desktop",
+      "check": "Test Connections button"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "desktop",
+      "check": "KPI: Active Copies"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "desktop",
+      "check": "Master: M2 DELTA"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "desktop",
+      "check": "Pause/Settings buttons"
+    },
+    {
+      "page": "admin-plan-management",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-plan-management",
+      "vp": "desktop",
+      "check": "Standard plan"
+    },
+    {
+      "page": "admin-plan-management",
+      "vp": "desktop",
+      "check": "Premium plan"
+    },
+    {
+      "page": "admin-plan-management",
+      "vp": "desktop",
+      "check": "Exclusive plan"
+    },
+    {
+      "page": "admin-billing-cycles",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-billing-cycles",
+      "vp": "desktop",
+      "check": "KPI: Cycle Revenue"
+    },
+    {
+      "page": "admin-billing-cycles",
+      "vp": "desktop",
+      "check": "Billing table"
+    },
+    {
+      "page": "admin-billing-cycles",
+      "vp": "desktop",
+      "check": "Run Billing button"
+    },
+    {
+      "page": "admin-invoices",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-invoices",
+      "vp": "desktop",
+      "check": "Invoice table"
+    },
+    {
+      "page": "admin-invoices",
+      "vp": "desktop",
+      "check": "Paid status"
+    },
+    {
+      "page": "admin-invoices",
+      "vp": "desktop",
+      "check": "Pending status"
+    },
+    {
+      "page": "admin-pnl-analytics",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-pnl-analytics",
+      "vp": "desktop",
+      "check": "P&L KPI cards"
+    },
+    {
+      "page": "admin-transaction-logs",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-transaction-logs",
+      "vp": "desktop",
+      "check": "Transaction table"
+    },
+    {
+      "page": "admin-partner-performance",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-partner-performance",
+      "vp": "desktop",
+      "check": "KPI cards"
+    },
+    {
+      "page": "admin-partner-performance",
+      "vp": "desktop",
+      "check": "Leaderboard table"
+    },
+    {
+      "page": "admin-notification-templates",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-notification-templates",
+      "vp": "desktop",
+      "check": "New Template button"
+    },
+    {
+      "page": "admin-notification-templates",
+      "vp": "desktop",
+      "check": "Template cards or list"
+    },
+    {
+      "page": "admin-audit-logs",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-audit-logs",
+      "vp": "desktop",
+      "check": "Audit log table"
+    },
+    {
+      "page": "admin-audit-logs",
+      "vp": "desktop",
+      "check": "Export button"
+    },
+    {
+      "page": "admin-audit-logs",
+      "vp": "desktop",
+      "check": "Timestamp column"
+    },
+    {
+      "page": "admin-user-roles",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-user-roles",
+      "vp": "desktop",
+      "check": "User list content"
+    },
+    {
+      "page": "admin-security",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-security",
+      "vp": "desktop",
+      "check": "Security content"
+    },
+    {
+      "page": "admin-performance-metrics",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-performance-metrics",
+      "vp": "desktop",
+      "check": "Metrics content"
+    },
+    {
+      "page": "admin-masters",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-masters",
+      "vp": "desktop",
+      "check": "Master accounts list"
+    },
+    {
+      "page": "admin-faqs",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-faqs",
+      "vp": "desktop",
+      "check": "FAQ accordion items"
+    },
+    {
+      "page": "admin-help-center",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-help-center",
+      "vp": "desktop",
+      "check": "Help content"
+    },
+    {
+      "page": "admin-user-guidelines",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "admin-user-guidelines",
+      "vp": "desktop",
+      "check": "Guidelines content"
+    },
+    {
+      "page": "admin-sidebar",
+      "vp": "desktop",
+      "check": "Sidebar visible on desktop"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "mobile",
+      "check": "KPI: MTD P&L"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "mobile",
+      "check": "KPI: Portfolio Value"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "mobile",
+      "check": "Current plan panel"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "mobile",
+      "check": "Quick actions area"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "mobile",
+      "check": "Performance chart SVG"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "mobile",
+      "check": "Export CSV button"
+    },
+    {
+      "page": "client-profile",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-profile",
+      "vp": "mobile",
+      "check": "Save Changes button"
+    },
+    {
+      "page": "client-profile",
+      "vp": "mobile",
+      "check": "Current password input"
+    },
+    {
+      "page": "client-profile",
+      "vp": "mobile",
+      "check": "Change Password button"
+    },
+    {
+      "page": "client-profile",
+      "vp": "mobile",
+      "check": "KYC tab"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "mobile",
+      "check": "Connection status"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "mobile",
+      "check": "Server IP: 13.235"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "mobile",
+      "check": "Copy IP button"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "mobile",
+      "check": "API Key password input"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "mobile",
+      "check": "Test Connection button"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "mobile",
+      "check": "Save Keys button"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "mobile",
+      "check": "Plan name"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "mobile",
+      "check": "Renewal info"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "mobile",
+      "check": "Chart/equity curve SVG"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "mobile",
+      "check": "P&L metrics"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "mobile",
+      "check": "Invoice content"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "mobile",
+      "check": "Payment status"
+    },
+    {
+      "page": "client-support",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-support",
+      "vp": "mobile",
+      "check": "My Tickets tab"
+    },
+    {
+      "page": "client-support",
+      "vp": "mobile",
+      "check": "Raise Ticket tab"
+    },
+    {
+      "page": "client-support",
+      "vp": "mobile",
+      "check": "FAQs tab"
+    },
+    {
+      "page": "client-support",
+      "vp": "mobile",
+      "check": "Contact Support tab"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "mobile",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "mobile",
+      "check": "25% revenue benefit"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "mobile",
+      "check": "Partner program benefits"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "mobile",
+      "check": "Experience dropdown"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "mobile",
+      "check": "Submit Application button"
+    },
+    {
+      "page": "client-sidebar",
+      "vp": "mobile",
+      "check": "Sidebar hidden on mobile"
+    },
+    {
+      "page": "client-sidebar",
+      "vp": "mobile",
+      "check": "Menu toggle button exists on mobile"
+    },
+    {
+      "page": "client-sidebar",
+      "vp": "mobile",
+      "check": "Sidebar opens on menu button click"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "tablet",
+      "check": "KPI: MTD P&L"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "tablet",
+      "check": "KPI: Portfolio Value"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "tablet",
+      "check": "Current plan panel"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "tablet",
+      "check": "Quick actions area"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "tablet",
+      "check": "Export CSV button"
+    },
+    {
+      "page": "client-profile",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-profile",
+      "vp": "tablet",
+      "check": "Save Changes button"
+    },
+    {
+      "page": "client-profile",
+      "vp": "tablet",
+      "check": "Current password input"
+    },
+    {
+      "page": "client-profile",
+      "vp": "tablet",
+      "check": "Change Password button"
+    },
+    {
+      "page": "client-profile",
+      "vp": "tablet",
+      "check": "KYC tab"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "tablet",
+      "check": "Connection status"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "tablet",
+      "check": "Server IP: 13.235"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "tablet",
+      "check": "Copy IP button"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "tablet",
+      "check": "API Key password input"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "tablet",
+      "check": "Test Connection button"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "tablet",
+      "check": "Save Keys button"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "tablet",
+      "check": "Plan name"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "tablet",
+      "check": "Renewal info"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "tablet",
+      "check": "P&L metrics"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "tablet",
+      "check": "Invoice content"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "tablet",
+      "check": "Payment status"
+    },
+    {
+      "page": "client-support",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-support",
+      "vp": "tablet",
+      "check": "My Tickets tab"
+    },
+    {
+      "page": "client-support",
+      "vp": "tablet",
+      "check": "Raise Ticket tab"
+    },
+    {
+      "page": "client-support",
+      "vp": "tablet",
+      "check": "FAQs tab"
+    },
+    {
+      "page": "client-support",
+      "vp": "tablet",
+      "check": "Contact Support tab"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "tablet",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "tablet",
+      "check": "25% revenue benefit"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "tablet",
+      "check": "Partner program benefits"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "tablet",
+      "check": "Experience dropdown"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "tablet",
+      "check": "Submit Application button"
+    },
+    {
+      "page": "client-sidebar",
+      "vp": "tablet",
+      "check": "Sidebar visible on tablet"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "desktop",
+      "check": "KPI: MTD P&L"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "desktop",
+      "check": "KPI: Portfolio Value"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "desktop",
+      "check": "Current plan panel"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "desktop",
+      "check": "Quick actions area"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "desktop",
+      "check": "Export CSV button"
+    },
+    {
+      "page": "client-profile",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-profile",
+      "vp": "desktop",
+      "check": "Save Changes button"
+    },
+    {
+      "page": "client-profile",
+      "vp": "desktop",
+      "check": "Current password input"
+    },
+    {
+      "page": "client-profile",
+      "vp": "desktop",
+      "check": "Change Password button"
+    },
+    {
+      "page": "client-profile",
+      "vp": "desktop",
+      "check": "KYC tab"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "desktop",
+      "check": "Connection status"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "desktop",
+      "check": "Server IP: 13.235"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "desktop",
+      "check": "Copy IP button"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "desktop",
+      "check": "API Key password input"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "desktop",
+      "check": "Test Connection button"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "desktop",
+      "check": "Save Keys button"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "desktop",
+      "check": "Plan name"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "desktop",
+      "check": "Renewal info"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "desktop",
+      "check": "P&L metrics"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "desktop",
+      "check": "Invoice content"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "desktop",
+      "check": "Payment status"
+    },
+    {
+      "page": "client-support",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-support",
+      "vp": "desktop",
+      "check": "My Tickets tab"
+    },
+    {
+      "page": "client-support",
+      "vp": "desktop",
+      "check": "Raise Ticket tab"
+    },
+    {
+      "page": "client-support",
+      "vp": "desktop",
+      "check": "FAQs tab"
+    },
+    {
+      "page": "client-support",
+      "vp": "desktop",
+      "check": "Contact Support tab"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "desktop",
+      "check": "No horizontal overflow"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "desktop",
+      "check": "25% revenue benefit"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "desktop",
+      "check": "Partner program benefits"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "desktop",
+      "check": "Business/Entity name input"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "desktop",
+      "check": "Experience dropdown"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "desktop",
+      "check": "Submit Application button"
+    },
+    {
+      "page": "client-sidebar",
+      "vp": "desktop",
+      "check": "Sidebar visible on desktop"
+    }
+  ],
+  "issues": [
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "Individual account type div",
+      "detail": "not found: :text-is('Individual')"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "mobile",
+      "check": "Corporate account type div",
+      "detail": "not found: :text-is('Corporate')"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "Individual account type div",
+      "detail": "not found: :text-is('Individual')"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "tablet",
+      "check": "Corporate account type div",
+      "detail": "not found: :text-is('Corporate')"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "Individual account type div",
+      "detail": "not found: :text-is('Individual')"
+    },
+    {
+      "page": "auth-signup",
+      "vp": "desktop",
+      "check": "Corporate account type div",
+      "detail": "not found: :text-is('Corporate')"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "tablet",
+      "check": "AUM trend chart (SVG)",
+      "detail": "not found: svg"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "tablet",
+      "check": "Search input",
+      "detail": "not found: input[type=search], input[placeholder*=search i]"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "tablet",
+      "check": "KYC status badges",
+      "detail": "not found: :text('verified'), :text('Verified'), :text('pending'), :text('Pending')"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-kyc-verification",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "tablet",
+      "check": "Reply button",
+      "detail": "not found: button:has-text('Reply')"
+    },
+    {
+      "page": "admin-live-chat",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-live-chat",
+      "vp": "tablet",
+      "check": "Message input area",
+      "detail": "not found: input[type=text], textarea"
+    },
+    {
+      "page": "admin-live-chat",
+      "vp": "tablet",
+      "check": "Send button",
+      "detail": "not found: button:has-text('Send')"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "tablet",
+      "check": "Master: M1 ALPHA",
+      "detail": "not found: :text('ALPHA')"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "tablet",
+      "check": "Master: M3 SIGMA",
+      "detail": "not found: :text('SIGMA')"
+    },
+    {
+      "page": "admin-plan-management",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-billing-cycles",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-invoices",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-pnl-analytics",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-pnl-analytics",
+      "vp": "tablet",
+      "check": "Chart SVG",
+      "detail": "not found: svg"
+    },
+    {
+      "page": "admin-pnl-analytics",
+      "vp": "tablet",
+      "check": "Time period filter",
+      "detail": "not found: :text('30'), :text('90'), :text('YTD')"
+    },
+    {
+      "page": "admin-transaction-logs",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-transaction-logs",
+      "vp": "tablet",
+      "check": "Gateway filter",
+      "detail": "not found: :text('Gateway'), :text('Razorpay')"
+    },
+    {
+      "page": "admin-transaction-logs",
+      "vp": "tablet",
+      "check": "Status badges",
+      "detail": "not found: :text('SUCCESS'), :text('PENDING'), :text('FAILED')"
+    },
+    {
+      "page": "admin-partner-performance",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-notification-templates",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-audit-logs",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-user-roles",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-security",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-performance-metrics",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-masters",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-faqs",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-help-center",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-user-guidelines",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-dashboard",
+      "vp": "desktop",
+      "check": "AUM trend chart (SVG)",
+      "detail": "not found: svg"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-clients",
+      "vp": "desktop",
+      "check": "KYC status badges",
+      "detail": "not found: :text('verified'), :text('Verified'), :text('pending'), :text('Pending')"
+    },
+    {
+      "page": "admin-partners",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-kyc-verification",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-tickets",
+      "vp": "desktop",
+      "check": "Reply button",
+      "detail": "not found: button:has-text('Reply')"
+    },
+    {
+      "page": "admin-live-chat",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-live-chat",
+      "vp": "desktop",
+      "check": "Send button",
+      "detail": "not found: button:has-text('Send')"
+    },
+    {
+      "page": "admin-exchange-setup",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "desktop",
+      "check": "Master: M1 ALPHA",
+      "detail": "not found: :text('ALPHA')"
+    },
+    {
+      "page": "admin-copy-trading",
+      "vp": "desktop",
+      "check": "Master: M3 SIGMA",
+      "detail": "not found: :text('SIGMA')"
+    },
+    {
+      "page": "admin-plan-management",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-billing-cycles",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-invoices",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-pnl-analytics",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-pnl-analytics",
+      "vp": "desktop",
+      "check": "Chart SVG",
+      "detail": "not found: svg"
+    },
+    {
+      "page": "admin-pnl-analytics",
+      "vp": "desktop",
+      "check": "Time period filter",
+      "detail": "not found: :text('30'), :text('90'), :text('YTD')"
+    },
+    {
+      "page": "admin-transaction-logs",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-transaction-logs",
+      "vp": "desktop",
+      "check": "Gateway filter",
+      "detail": "not found: :text('Gateway'), :text('Razorpay')"
+    },
+    {
+      "page": "admin-transaction-logs",
+      "vp": "desktop",
+      "check": "Status badges",
+      "detail": "not found: :text('SUCCESS'), :text('PENDING'), :text('FAILED')"
+    },
+    {
+      "page": "admin-partner-performance",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-notification-templates",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-audit-logs",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-user-roles",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-security",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-performance-metrics",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-masters",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-faqs",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-help-center",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "admin-user-guidelines",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "mobile",
+      "check": "Revenue/Transactions toggle",
+      "detail": "not found: button:has-text('Revenue'), button:has-text('Transactions')"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "mobile",
+      "check": "Period selector buttons",
+      "detail": "not found: button:has-text('Daily'), button:has-text('Weekly'), button:has-text('Monthly')"
+    },
+    {
+      "page": "client-profile",
+      "vp": "mobile",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-profile",
+      "vp": "mobile",
+      "check": "Avatar section",
+      "detail": "not found: [class*=avatar], [class*=profile]"
+    },
+    {
+      "page": "client-profile",
+      "vp": "mobile",
+      "check": "Name input",
+      "detail": "not found: input[placeholder*='full name' i]"
+    },
+    {
+      "page": "client-profile",
+      "vp": "mobile",
+      "check": "Mobile input",
+      "detail": "not found: input[type=tel], input[placeholder*='mobile' i]"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "mobile",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "mobile",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "mobile",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "mobile",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-support",
+      "vp": "mobile",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-support",
+      "vp": "mobile",
+      "check": "WhatsApp contact",
+      "detail": "not found: :text('WhatsApp')"
+    },
+    {
+      "page": "client-support",
+      "vp": "mobile",
+      "check": "Telegram contact",
+      "detail": "not found: :text('Telegram')"
+    },
+    {
+      "page": "client-support",
+      "vp": "mobile",
+      "check": "Email contact",
+      "detail": "not found: :text('support@antmeta')"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "mobile",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "mobile",
+      "check": "Business/Entity name input",
+      "detail": "not found: input"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "tablet",
+      "check": "Performance chart SVG",
+      "detail": "not found: svg"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "tablet",
+      "check": "Revenue/Transactions toggle",
+      "detail": "not found: button:has-text('Revenue'), button:has-text('Transactions')"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "tablet",
+      "check": "Period selector buttons",
+      "detail": "not found: button:has-text('Daily'), button:has-text('Weekly'), button:has-text('Monthly')"
+    },
+    {
+      "page": "client-profile",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-profile",
+      "vp": "tablet",
+      "check": "Avatar section",
+      "detail": "not found: [class*=avatar], [class*=profile]"
+    },
+    {
+      "page": "client-profile",
+      "vp": "tablet",
+      "check": "Name input",
+      "detail": "not found: input[placeholder*='full name' i]"
+    },
+    {
+      "page": "client-profile",
+      "vp": "tablet",
+      "check": "Mobile input",
+      "detail": "not found: input[type=tel], input[placeholder*='mobile' i]"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "tablet",
+      "check": "Chart/equity curve SVG",
+      "detail": "not found: svg, canvas"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-support",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-support",
+      "vp": "tablet",
+      "check": "WhatsApp contact",
+      "detail": "not found: :text('WhatsApp')"
+    },
+    {
+      "page": "client-support",
+      "vp": "tablet",
+      "check": "Telegram contact",
+      "detail": "not found: :text('Telegram')"
+    },
+    {
+      "page": "client-support",
+      "vp": "tablet",
+      "check": "Email contact",
+      "detail": "not found: :text('support@antmeta')"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "tablet",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "tablet",
+      "check": "Business/Entity name input",
+      "detail": "not found: input"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "desktop",
+      "check": "Performance chart SVG",
+      "detail": "not found: svg"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "desktop",
+      "check": "Revenue/Transactions toggle",
+      "detail": "not found: button:has-text('Revenue'), button:has-text('Transactions')"
+    },
+    {
+      "page": "client-dashboard",
+      "vp": "desktop",
+      "check": "Period selector buttons",
+      "detail": "not found: button:has-text('Daily'), button:has-text('Weekly'), button:has-text('Monthly')"
+    },
+    {
+      "page": "client-profile",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-profile",
+      "vp": "desktop",
+      "check": "Avatar section",
+      "detail": "not found: [class*=avatar], [class*=profile]"
+    },
+    {
+      "page": "client-profile",
+      "vp": "desktop",
+      "check": "Name input",
+      "detail": "not found: input[placeholder*='full name' i]"
+    },
+    {
+      "page": "client-profile",
+      "vp": "desktop",
+      "check": "Mobile input",
+      "detail": "not found: input[type=tel], input[placeholder*='mobile' i]"
+    },
+    {
+      "page": "client-exchange-setup",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-subscription",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-pnl-analytics",
+      "vp": "desktop",
+      "check": "Chart/equity curve SVG",
+      "detail": "not found: svg, canvas"
+    },
+    {
+      "page": "client-invoices",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-support",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    },
+    {
+      "page": "client-support",
+      "vp": "desktop",
+      "check": "WhatsApp contact",
+      "detail": "not found: :text('WhatsApp')"
+    },
+    {
+      "page": "client-support",
+      "vp": "desktop",
+      "check": "Telegram contact",
+      "detail": "not found: :text('Telegram')"
+    },
+    {
+      "page": "client-support",
+      "vp": "desktop",
+      "check": "Email contact",
+      "detail": "not found: :text('support@antmeta')"
+    },
+    {
+      "page": "client-become-partner",
+      "vp": "desktop",
+      "check": "Page heading",
+      "detail": "not found: h1, h2"
+    }
+  ]
+}

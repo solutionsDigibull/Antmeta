@@ -31,7 +31,7 @@ export async function updateSession(request: NextRequest) {
   } = await supabase.auth.getUser()
 
   const pathname = request.nextUrl.pathname
-  const isAuthPage = ['/login', '/signup', '/verify-otp', '/forgot-password'].some(
+  const isAuthPage = ['/login', '/signup', '/verify-otp', '/forgot-password', '/reset-password'].some(
     (p) => pathname.startsWith(p)
   )
   const isProtectedRoute =

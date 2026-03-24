@@ -20,8 +20,15 @@ export function isAdminOrSupport(role?: string) {
   return role === 'admin' || role === 'super_admin' || role === 'support'
 }
 
-export function getUserRole(user: { app_metadata?: Record<string, unknown> }) {
-  return (user.app_metadata?.role as string) || 'client'
+const VALID_ROLES = ['super_admin', 'admin', 'support', 'client'] as const
+type UserRole = typeof VALID_ROLES[number]
+
+export function getUserRole(user: { app_metadata?: Record<string, unknown> }): UserRole {
+  const role = user.app_metadata?.role
+  if (typeof role === 'string' && (VALID_ROLES as readonly string[]).includes(role)) {
+    return role as UserRole
+  }
+  return 'client'
 }
 
 export function unauthorized() {

@@ -13,6 +13,7 @@ interface AuthContextValue {
   login: (id: string, pw: string) => void;
   signup: (data: SignupData) => boolean;
   verifyOtp: (code: string) => void;
+  resendOtp: () => void;
   logout: () => void;
   signupData: SignupData;
   setSignupData: React.Dispatch<React.SetStateAction<SignupData>>;
@@ -93,7 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signup = useCallback((data: SignupData): boolean => {
     setLoginError("");
-    if (!data.mobile || data.mobile.length < 10) { setLoginError("Enter a valid 10-digit mobile number"); return false; }
+    if (!data.email || !data.email.includes("@")) { setLoginError("Enter a valid email address"); return false; }
     if (!data.name || data.name.length < 2) { setLoginError("Enter your full name"); return false; }
     if (!data.password || data.password.length < 8) { setLoginError("Password must be at least 8 characters"); return false; }
     if (data.password !== data.confirmPw) { setLoginError("Passwords do not match"); return false; }
@@ -101,15 +102,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Store data for OTP verification step
     setSignupData(data);
 
-    // Trigger OTP via Supabase
+    // Trigger email OTP via Supabase
     (async () => {
-      const phone = `+91${data.mobile.replace(/\D/g, "")}`;
-      const { error } = await supabase.auth.signInWithOtp({ phone });
+      const { error } = await supabase.auth.signInWithOtp({
+        email: data.email,
+        options: { shouldCreateUser: true },
+      });
       if (error) {
         setLoginError(error.message);
         toast.error(error.message);
       } else {
-        toast.success(`OTP sent to +91 ${data.mobile}`);
+        toast.success(`OTP sent to ${data.email}`);
       }
     })();
 
@@ -120,11 +123,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoginError("");
     if (code.length < 6) { setLoginError("Enter the complete 6-digit OTP"); return; }
 
-    const phone = `+91${signupData.mobile.replace(/\D/g, "")}`;
     const { data, error } = await supabase.auth.verifyOtp({
-      phone,
+      email: signupData.email,
       token: code,
-      type: "sms",
+      type: "email",
     });
 
     if (error) {
@@ -133,21 +135,32 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     if (data.user) {
-      // Update user metadata
+      // Update auth user metadata
       await supabase.auth.updateUser({
+        password: signupData.password,
         data: {
           name: signupData.name,
           account_type: signupData.accountType,
         },
       });
 
-      // Set email if provided
-      if (signupData.email) {
-        await supabase.auth.updateUser({ email: signupData.email });
-      }
+      // Create public.users + public.clients records via API
+      const res = await fetch("/api/auth/complete-profile", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: signupData.name,
+          email: signupData.email,
+          phone: signupData.mobile ? `+91${signupData.mobile.replace(/\D/g, "")}` : null,
+          accountType: signupData.accountType,
+        }),
+      });
 
-      // Set password
-      await supabase.auth.updateUser({ password: signupData.password });
+      if (!res.ok) {
+        const err = await res.json();
+        toast.error(err.error || "Failed to complete registration");
+        return;
+      }
 
       const u: User = {
         id: data.user.id,
@@ -161,6 +174,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }, [signupData, router, supabase]);
 
+  const resendOtp = useCallback(() => {
+    if (!signupData.email) return;
+    (async () => {
+      const { error } = await supabase.auth.signInWithOtp({
+        email: signupData.email,
+        options: { shouldCreateUser: true },
+      });
+      if (error) {
+        toast.error(error.message);
+      } else {
+        toast.success(`OTP resent to ${signupData.email}`);
+      }
+    })();
+  }, [signupData.email, supabase]);
+
   const logout = useCallback(async () => {
     await supabase.auth.signOut();
     setUser(null);
@@ -170,7 +198,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [router, supabase]);
 
   return (
-    <AuthContext.Provider value={{ user, loginType, setLoginType, login, signup, verifyOtp, logout, signupData, setSignupData, loginError, setLoginError }}>
+    <AuthContext.Provider value={{ user, loginType, setLoginType, login, signup, verifyOtp, resendOtp, logout, signupData, setSignupData, loginError, setLoginError }}>
       {children}
     </AuthContext.Provider>
   );

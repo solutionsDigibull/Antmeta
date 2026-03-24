@@ -43,7 +43,7 @@ export default function NotifTemplates() {
               Channels: <strong className="text-am-text-2">{tmpl.ch}</strong>
             </div>
             <div className="bg-black/20 rounded-lg p-2.5 text-[13px] text-am-text-3 font-mono mb-2.5">
-              {`Dear {client_name}, your {action} has been {status}. Login at traders.antmeta.ai -- AntMeta`}
+              {tmpl.body || '—'}
             </div>
             <div className="flex gap-2">
               <button onClick={() => toast.info(`Editing ${tmpl.n}`)} className="bg-am-secondary hover:bg-am-secondary/80 text-white text-xs font-semibold px-3 py-1.5 rounded-md cursor-pointer">Edit</button>

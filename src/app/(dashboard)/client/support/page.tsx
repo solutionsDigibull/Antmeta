@@ -73,7 +73,15 @@ export default function SupportClientPage() {
   const [tickets, setTickets] = useState<ClientTicket[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  // Form state
+  const [clientId, setClientId] = useState<string | null>(null);
+  const [category, setCategory] = useState("KYC Issue");
+  const [priority, setPriority] = useState<"low" | "medium" | "high">("medium");
+  const [subject, setSubject] = useState("");
+  const [description, setDescription] = useState("");
+  const [submitting, setSubmitting] = useState(false);
+
+  const fetchTickets = () => {
     fetch("/api/tickets")
       .then(r => r.json())
       .then(d => {
@@ -90,7 +98,52 @@ export default function SupportClientPage() {
       })
       .catch(() => {})
       .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchTickets();
+    fetch("/api/clients/me")
+      .then(r => r.json())
+      .then(d => { if (d.data) setClientId(d.data.id); })
+      .catch(() => {});
   }, []);
+
+  const handleSubmitTicket = async () => {
+    if (!subject.trim()) { toast.error("Subject is required"); return; }
+    if (!description.trim()) { toast.error("Description is required"); return; }
+    if (!clientId) { toast.error("Could not identify your account. Please refresh."); return; }
+
+    setSubmitting(true);
+    try {
+      const res = await fetch("/api/tickets", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          client_id: clientId,
+          subject: subject.trim(),
+          description: `${category}: ${description.trim()}`,
+          priority,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || "Failed to submit ticket");
+        return;
+      }
+      const ticketNumber = data.data?.ticket_number || "your ticket";
+      toast.success(`${ticketNumber} created! You'll receive a confirmation email.`);
+      setSubject("");
+      setDescription("");
+      setCategory("KYC Issue");
+      setPriority("medium");
+      fetchTickets();
+      setTab("tickets");
+    } catch {
+      toast.error("Network error. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <div>
@@ -110,6 +163,10 @@ export default function SupportClientPage() {
             </button>
           }
         >
+          {loading && <div className="text-sm text-am-text-3 py-4 text-center">Loading tickets…</div>}
+          {!loading && tickets.length === 0 && (
+            <div className="text-sm text-am-text-3 py-4 text-center">No tickets yet. Raise one if you need help.</div>
+          )}
           {tickets.map((tk) => (
             <div
               key={tk.id}
@@ -146,8 +203,11 @@ export default function SupportClientPage() {
               <label className="block text-xs font-semibold text-am-text-3 mb-1 uppercase">
                 Category *
               </label>
-              <FilterSelect style={{ width: "100%" }}>
-                <option>Select category</option>
+              <FilterSelect
+                style={{ width: "100%" }}
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+              >
                 <option>KYC Issue</option>
                 <option>Trading / Copy Trading</option>
                 <option>Billing & Invoices</option>
@@ -160,10 +220,14 @@ export default function SupportClientPage() {
               <label className="block text-xs font-semibold text-am-text-3 mb-1 uppercase">
                 Priority
               </label>
-              <FilterSelect style={{ width: "100%" }}>
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
+              <FilterSelect
+                style={{ width: "100%" }}
+                value={priority}
+                onChange={(e) => setPriority(e.target.value as "low" | "medium" | "high")}
+              >
+                <option value="low">Low</option>
+                <option value="medium">Medium</option>
+                <option value="high">High</option>
               </FilterSelect>
             </div>
           </div>
@@ -172,6 +236,8 @@ export default function SupportClientPage() {
               Subject *
             </label>
             <input
+              value={subject}
+              onChange={(e) => setSubject(e.target.value)}
               placeholder="Brief description of your issue"
               className="w-full bg-am-input-bg border border-am-border rounded-lg py-2.5 px-3 font-sans text-sm text-am-text outline-none"
             />
@@ -182,6 +248,8 @@ export default function SupportClientPage() {
             </label>
             <textarea
               rows={4}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="Explain your issue in detail…"
               className="w-full bg-am-input-bg border border-am-border rounded-lg py-2.5 px-3 font-sans text-sm text-am-text outline-none resize-y"
             />
@@ -200,13 +268,11 @@ export default function SupportClientPage() {
             </div>
           </div>
           <button
-            onClick={() => {
-              toast.success("Ticket TKT-090 created! You\u2019ll receive a confirmation email.");
-              setTab("tickets");
-            }}
-            className="w-full bg-am-primary hover:bg-am-primary-hover text-white font-semibold text-sm rounded-lg py-2.5 cursor-pointer transition-colors text-center"
+            onClick={handleSubmitTicket}
+            disabled={submitting}
+            className="w-full bg-am-primary hover:bg-am-primary-hover text-white font-semibold text-sm rounded-lg py-2.5 cursor-pointer transition-colors text-center disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            Submit Ticket {"\u2192"}
+            {submitting ? "Submitting…" : `Submit Ticket \u2192`}
           </button>
         </Panel>
       )}

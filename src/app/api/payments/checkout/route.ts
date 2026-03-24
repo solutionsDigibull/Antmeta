@@ -28,10 +28,12 @@ export async function POST(request: NextRequest) {
     })
 
     // Store razorpay_order_id on invoice
-    await supabase
+    const { error: updateErr } = await supabase
       .from('invoices')
       .update({ razorpay_order_id: order.id })
       .eq('id', invoice_id)
+
+    if (updateErr) throw new Error(`Failed to store order ID: ${updateErr.message}`)
 
     return NextResponse.json({
       data: {

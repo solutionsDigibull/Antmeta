@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAuthenticatedUser, unauthorized, badRequest } from '@/lib/api-helpers'
+import { getAuthenticatedUser, unauthorized, badRequest, notFound } from '@/lib/api-helpers'
 import { verifyPaymentSignature } from '@/lib/payments/razorpay'
 
 export async function POST(request: NextRequest) {
@@ -19,7 +19,21 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Invalid payment signature' }, { status: 400 })
   }
 
-  // Update invoice
+  // Idempotency: fetch invoice and check if already paid
+  const { data: invoice, error: fetchErr } = await supabase
+    .from('invoices')
+    .select('id, razorpay_payment_id')
+    .eq('razorpay_order_id', razorpay_order_id)
+    .maybeSingle()
+
+  if (fetchErr) return NextResponse.json({ error: fetchErr.message }, { status: 500 })
+  if (!invoice) return notFound('Invoice not found')
+
+  // Already processed — return success without double-writing
+  if (invoice.razorpay_payment_id) {
+    return NextResponse.json({ verified: true })
+  }
+
   const { error: dbError } = await supabase
     .from('invoices')
     .update({
@@ -28,7 +42,7 @@ export async function POST(request: NextRequest) {
       payment_method: 'razorpay',
       razorpay_payment_id,
     })
-    .eq('razorpay_order_id', razorpay_order_id)
+    .eq('id', invoice.id)
 
   if (dbError) return NextResponse.json({ error: dbError.message }, { status: 500 })
 
