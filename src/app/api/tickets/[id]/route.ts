@@ -6,10 +6,11 @@ export async function GET(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { supabase, error } = await getAuthenticatedUser()
+  const { user, supabase, error } = await getAuthenticatedUser()
   if (error) return unauthorized()
 
   const { id } = await params
+  const role = getUserRole(user!)
 
   const { data, error: dbError } = await supabase
     .from('tickets')
@@ -18,6 +19,17 @@ export async function GET(
     .single()
 
   if (dbError || !data) return notFound('Ticket not found')
+
+  // Clients may only view their own tickets
+  if (!isAdminOrSupport(role)) {
+    const { data: clientRecord } = await supabase
+      .from('clients')
+      .select('id')
+      .eq('user_id', user!.id)
+      .maybeSingle()
+
+    if (!clientRecord || data.client_id !== clientRecord.id) return forbidden()
+  }
 
   return NextResponse.json({ data })
 }
@@ -47,7 +59,7 @@ export async function PATCH(
     .select()
     .single()
 
-  if (dbError) return NextResponse.json({ error: dbError.message }, { status: 500 })
+  if (dbError) return NextResponse.json({ error: 'Failed to update ticket' }, { status: 500 })
   if (!data) return notFound('Ticket not found')
 
   return NextResponse.json({ data })

@@ -38,7 +38,7 @@ export async function GET(request: NextRequest) {
     .order('created_at', { ascending: false })
     .range(offset, offset + limit - 1)
 
-  if (dbError) return NextResponse.json({ error: dbError.message }, { status: 500 })
+  if (dbError) return NextResponse.json({ error: 'Failed to fetch invoices' }, { status: 500 })
 
   const invoices = (data || []).map((row: Record<string, unknown>) => {
     const client = row.client as Record<string, unknown> | null
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
     .select()
     .single()
 
-  if (dbError) return NextResponse.json({ error: dbError.message }, { status: 500 })
+  if (dbError) return NextResponse.json({ error: 'Failed to create invoice' }, { status: 500 })
 
   return NextResponse.json({ data }, { status: 201 })
 }

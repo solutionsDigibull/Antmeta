@@ -13,9 +13,18 @@ export async function PATCH(
   if (currentRole !== 'super_admin') return forbidden()
 
   const { id } = await params
+
+  // Prevent super_admin from modifying their own role
+  if (id === user!.id) return badRequest('Cannot modify your own role')
+
   const body = await request.json()
   const parsed = updateUserRoleSchema.safeParse(body)
   if (!parsed.success) return badRequest(parsed.error.message)
+
+  // Prevent assigning super_admin via this endpoint (must be done via DB/manual process)
+  if (parsed.data.role === 'super_admin') {
+    return badRequest('Cannot assign super_admin role through this endpoint')
+  }
 
   // Update in users table
   const { data, error: dbError } = await supabase
@@ -25,7 +34,7 @@ export async function PATCH(
     .select()
     .single()
 
-  if (dbError) return NextResponse.json({ error: dbError.message }, { status: 500 })
+  if (dbError) return NextResponse.json({ error: 'Failed to update role' }, { status: 500 })
   if (!data) return notFound('User not found')
 
   // Also update app_metadata in auth

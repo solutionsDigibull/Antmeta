@@ -102,15 +102,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Store data for OTP verification step
     setSignupData(data);
 
-    // Trigger email OTP via Supabase
+    // Send OTP via nodemailer
     (async () => {
-      const { error } = await supabase.auth.signInWithOtp({
-        email: data.email,
-        options: { shouldCreateUser: true },
+      const res = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: data.email }),
       });
-      if (error) {
-        setLoginError(error.message);
-        toast.error(error.message);
+      if (!res.ok) {
+        const err = await res.json();
+        setLoginError(err.error || 'Failed to send OTP');
+        toast.error(err.error || 'Failed to send OTP');
       } else {
         toast.success(`OTP sent to ${data.email}`);
       }
@@ -123,71 +125,82 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setLoginError("");
     if (code.length < 6) { setLoginError("Enter the complete 6-digit OTP"); return; }
 
-    const { data, error } = await supabase.auth.verifyOtp({
-      email: signupData.email,
-      token: code,
-      type: "email",
+    // Verify OTP and create Supabase user via custom API
+    const verifyRes = await fetch('/api/auth/verify-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: signupData.email,
+        otp: code,
+        name: signupData.name,
+        mobile: signupData.mobile,
+        accountType: signupData.accountType,
+        password: signupData.password,
+      }),
     });
 
-    if (error) {
-      setLoginError(error.message);
+    if (!verifyRes.ok) {
+      const err = await verifyRes.json();
+      setLoginError(err.error || 'Invalid OTP');
       return;
     }
 
-    if (data.user) {
-      // Update auth user metadata
-      await supabase.auth.updateUser({
-        password: signupData.password,
-        data: {
-          name: signupData.name,
-          account_type: signupData.accountType,
-        },
-      });
+    // Sign in with password to establish session
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: signupData.email,
+      password: signupData.password,
+    });
 
-      // Create public.users + public.clients records via API
-      const res = await fetch("/api/auth/complete-profile", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: signupData.name,
-          email: signupData.email,
-          phone: signupData.mobile ? `+91${signupData.mobile.replace(/\D/g, "")}` : null,
-          accountType: signupData.accountType,
-        }),
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        toast.error(err.error || "Failed to complete registration");
-        return;
-      }
-
-      const u: User = {
-        id: data.user.id,
-        name: signupData.name,
-        role: signupData.accountType === "individual" ? "Individual Client" : "Corporate Client",
-        type: "client",
-      };
-      setUser(u);
-      toast.success("Account created successfully!");
-      router.push("/client/dashboard");
+    if (error || !data.user) {
+      setLoginError(error?.message || 'Failed to sign in after verification');
+      return;
     }
+
+    // Create public.users + public.clients records via API
+    const res = await fetch("/api/auth/complete-profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: signupData.name,
+        email: signupData.email,
+        phone: signupData.mobile ? `+91${signupData.mobile.replace(/\D/g, "")}` : null,
+        accountType: signupData.accountType,
+      }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      toast.error(err.error || "Failed to complete registration");
+      return;
+    }
+
+    const u: User = {
+      id: data.user.id,
+      name: signupData.name,
+      role: signupData.accountType === "individual" ? "Individual Client" : "Corporate Client",
+      type: "client",
+    };
+    setUser(u);
+    toast.success("Account created successfully!");
+    router.push("/client/dashboard");
   }, [signupData, router, supabase]);
 
   const resendOtp = useCallback(() => {
     if (!signupData.email) return;
     (async () => {
-      const { error } = await supabase.auth.signInWithOtp({
-        email: signupData.email,
-        options: { shouldCreateUser: true },
+      const res = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: signupData.email }),
       });
-      if (error) {
-        toast.error(error.message);
+      if (!res.ok) {
+        const err = await res.json();
+        toast.error(err.error || 'Failed to resend OTP');
       } else {
         toast.success(`OTP resent to ${signupData.email}`);
       }
     })();
-  }, [signupData.email, supabase]);
+  }, [signupData.email]);
 
   const logout = useCallback(async () => {
     await supabase.auth.signOut();

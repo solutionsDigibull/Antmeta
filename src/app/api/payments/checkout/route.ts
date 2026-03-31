@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAuthenticatedUser, unauthorized, badRequest, notFound } from '@/lib/api-helpers'
+import { getAuthenticatedUser, getUserRole, isAdminRole, unauthorized, badRequest, notFound } from '@/lib/api-helpers'
 import { createOrder } from '@/lib/payments/razorpay'
 
 export async function POST(request: NextRequest) {
-  const { supabase, error } = await getAuthenticatedUser()
+  const { user, supabase, error } = await getAuthenticatedUser()
   if (error) return unauthorized()
 
   const body = await request.json()
@@ -17,6 +17,20 @@ export async function POST(request: NextRequest) {
     .single()
 
   if (dbError || !invoice) return notFound('Invoice not found')
+
+  // Clients may only initiate checkout for their own invoices
+  const role = getUserRole(user!)
+  if (!isAdminRole(role)) {
+    const { data: clientRecord } = await supabase
+      .from('clients')
+      .select('id')
+      .eq('user_id', user!.id)
+      .maybeSingle()
+
+    if (!clientRecord || invoice.client_id !== clientRecord.id) {
+      return NextResponse.json({ error: 'Invoice not found' }, { status: 404 })
+    }
+  }
 
   // Amount in paise
   const amountInPaise = Math.round(invoice.total_amount * 100)
@@ -33,7 +47,7 @@ export async function POST(request: NextRequest) {
       .update({ razorpay_order_id: order.id })
       .eq('id', invoice_id)
 
-    if (updateErr) throw new Error(`Failed to store order ID: ${updateErr.message}`)
+    if (updateErr) throw new Error('order_store_failed')
 
     return NextResponse.json({
       data: {
@@ -43,7 +57,7 @@ export async function POST(request: NextRequest) {
         key_id: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID,
       },
     })
-  } catch (err) {
-    return NextResponse.json({ error: (err as Error).message }, { status: 500 })
+  } catch {
+    return NextResponse.json({ error: 'Failed to create payment order' }, { status: 500 })
   }
 }

@@ -33,7 +33,11 @@
       "Bash(npm install:*)",
       "Bash(grep -v \"^$\")",
       "Bash(node test-create-user.mjs)",
-      "Bash(node test-responsive-auth.mjs)"
+      "Bash(node test-responsive-auth.mjs)",
+      "Bash(grep -E \"\\\\.\\(ts|tsx|js|jsx\\)$\")",
+      "Bash(node:*)",
+      "Bash(find C:UsersadminDesktopAntmeta/src -type f \\\\\\(-name *.ts -o -name *.tsx \\\\\\))",
+      "Bash(grep -A 15 \"GET.*kyc.*\\\\[id\\\\]\" src/app/api/kyc/[id]/route.ts)"
     ]
   }
 }

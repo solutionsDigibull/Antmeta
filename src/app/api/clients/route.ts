@@ -25,14 +25,16 @@ export async function GET(request: NextRequest) {
   if (kyc) query = query.eq('kyc_status', kyc)
   if (plan) query = query.eq('plan_id', plan)
   if (search) {
-    query = query.or(`client_id.ilike.%${search}%`)
+    // Escape PostgREST ilike wildcards to prevent wildcard injection
+    const escaped = search.replace(/\\/g, '\\\\').replace(/%/g, '\\%').replace(/_/g, '\\_')
+    query = query.or(`client_id.ilike.%${escaped}%`)
   }
 
   const { data, error: dbError, count } = await query
     .order('joined_at', { ascending: false })
     .range(offset, offset + limit - 1)
 
-  if (dbError) return NextResponse.json({ error: dbError.message }, { status: 500 })
+  if (dbError) return NextResponse.json({ error: 'Failed to fetch clients' }, { status: 500 })
 
   const clients = (data || []).map((row: Record<string, unknown>) =>
     dbClientToClient(
@@ -67,7 +69,7 @@ export async function POST(request: NextRequest) {
     app_metadata: { role: 'client' },
   })
 
-  if (authError) return NextResponse.json({ error: authError.message }, { status: 500 })
+  if (authError) return NextResponse.json({ error: 'Failed to create user account' }, { status: 500 })
 
   const { data: clientIdData } = await supabase.rpc('generate_client_id')
   const clientId = clientIdData || `${new Date().toISOString().slice(2, 10).replace(/-/g, '')}100001`
@@ -84,7 +86,7 @@ export async function POST(request: NextRequest) {
     .select('*, user:users(*), plan:plans(*), partner:partners(*)')
     .single()
 
-  if (clientError) return NextResponse.json({ error: clientError.message }, { status: 500 })
+  if (clientError) return NextResponse.json({ error: 'Failed to create client record' }, { status: 500 })
 
   const client = dbClientToClient(
     clientData,

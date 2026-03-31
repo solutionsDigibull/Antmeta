@@ -5,7 +5,7 @@ import { z } from 'zod'
 export const createClientSchema = z.object({
   name: z.string().min(2).max(200),
   email: z.string().email(),
-  phone: z.string().regex(/^\+91\s?\d{10}$/, 'Must be +91 followed by 10 digits'),
+  phone: z.string().regex(/^\+91\d{10}$/, 'Must be +91 followed by exactly 10 digits'),
   account_type: z.enum(['individual', 'corporate']),
   pan: z.string().regex(/^[A-Z]{5}\d{4}[A-Z]$/, 'Invalid PAN format').optional(),
   plan_id: z.string().uuid().optional(),
@@ -47,7 +47,7 @@ export const createInvoiceSchema = z.object({
   client_id: z.string().uuid(),
   amount: z.number().positive(),
   gst_amount: z.number().min(0).default(0),
-  type: z.string().min(1),
+  type: z.enum(['management_fee', 'profit_share', 'platform_fee', 'other']),
   due_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'Must be YYYY-MM-DD'),
 })
 
@@ -102,7 +102,7 @@ export const updatePartnerSchema = z.object({
 // --- Users ---
 
 export const updateUserRoleSchema = z.object({
-  role: z.enum(['super_admin', 'admin', 'support', 'client']),
+  role: z.enum(['admin', 'support', 'client']),
 })
 
 // --- Plans ---

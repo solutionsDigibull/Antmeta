@@ -11,12 +11,12 @@ export async function GET(request: NextRequest) {
   const storedState = request.cookies.get('digilocker_state')?.value
 
   if (!code || !state) {
-    return NextResponse.redirect(new URL('/client/profile?kyc=error', request.url))
+    return NextResponse.redirect(new URL('/client/profile?kyc=error', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
   }
 
   // CSRF protection: verify state matches what was set at authorize time
   if (!storedState || state !== storedState) {
-    return NextResponse.redirect(new URL('/client/profile?kyc=error&reason=invalid_state', request.url))
+    return NextResponse.redirect(new URL('/client/profile?kyc=error&reason=invalid_state', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
   }
 
   const clientId = process.env.DIGILOCKER_CLIENT_ID
@@ -24,11 +24,11 @@ export async function GET(request: NextRequest) {
   const redirectUri = process.env.DIGILOCKER_REDIRECT_URI
 
   if (!clientId || !clientSecret || !redirectUri) {
-    return NextResponse.redirect(new URL('/client/profile?kyc=error', request.url))
+    return NextResponse.redirect(new URL('/client/profile?kyc=error', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
   }
 
   if (!codeVerifier) {
-    return NextResponse.redirect(new URL('/client/profile?kyc=error&reason=missing_verifier', request.url))
+    return NextResponse.redirect(new URL('/client/profile?kyc=error&reason=missing_verifier', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
   }
 
   try {
@@ -47,7 +47,7 @@ export async function GET(request: NextRequest) {
     })
 
     if (!tokenRes.ok) {
-      return NextResponse.redirect(new URL('/client/profile?kyc=error', request.url))
+      return NextResponse.redirect(new URL('/client/profile?kyc=error', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
     }
 
     const tokenData = await tokenRes.json()
@@ -59,7 +59,7 @@ export async function GET(request: NextRequest) {
     })
 
     if (!aadhaarRes.ok) {
-      return NextResponse.redirect(new URL('/client/profile?kyc=error', request.url))
+      return NextResponse.redirect(new URL('/client/profile?kyc=error', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
     }
 
     const aadhaarData = await aadhaarRes.json()
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
       .maybeSingle()
 
     if (!clientRecord) {
-      return NextResponse.redirect(new URL('/client/profile?kyc=error&reason=no_client', request.url))
+      return NextResponse.redirect(new URL('/client/profile?kyc=error&reason=no_client', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
     }
 
     // Upsert KYC document as verified
@@ -89,14 +89,14 @@ export async function GET(request: NextRequest) {
       }, { onConflict: 'client_id,document_type' })
 
     if (upsertError) {
-      return NextResponse.redirect(new URL('/client/profile?kyc=error&reason=db_error', request.url))
+      return NextResponse.redirect(new URL('/client/profile?kyc=error&reason=db_error', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
     }
 
-    const response = NextResponse.redirect(new URL('/client/profile?kyc=success', request.url))
+    const response = NextResponse.redirect(new URL('/client/profile?kyc=success', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
     response.cookies.delete('digilocker_cv')
     response.cookies.delete('digilocker_state')
     return response
   } catch {
-    return NextResponse.redirect(new URL('/client/profile?kyc=error', request.url))
+    return NextResponse.redirect(new URL('/client/profile?kyc=error', process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'))
   }
 }
