@@ -37,7 +37,20 @@
       "Bash(grep -E \"\\\\.\\(ts|tsx|js|jsx\\)$\")",
       "Bash(node:*)",
       "Bash(find C:UsersadminDesktopAntmeta/src -type f \\\\\\(-name *.ts -o -name *.tsx \\\\\\))",
-      "Bash(grep -A 15 \"GET.*kyc.*\\\\[id\\\\]\" src/app/api/kyc/[id]/route.ts)"
+      "Bash(grep -A 15 \"GET.*kyc.*\\\\[id\\\\]\" src/app/api/kyc/[id]/route.ts)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(grep -l \"TODO\\\\|PLACEHOLDER\\\\|NOT IMPLEMENTED\\\\|Coming Soon\\\\|WIP\" /c/Users/admin/Desktop/Antmeta/src/app/\\\\\\(dashboard\\\\\\)/admin/*/page.tsx)",
+      "Bash(npm list:*)",
+      "Bash(claude mcp:*)",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_fill_form",
+      "Bash(python -m json.tool)",
+      "mcp__playwright__browser_resize",
+      "mcp__playwright__browser_console_messages",
+      "mcp__playwright__browser_network_requests"
     ]
   }
 }
