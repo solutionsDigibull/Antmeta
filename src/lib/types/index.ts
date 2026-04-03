@@ -53,7 +53,7 @@ export interface Invoice {
 }
 
 export interface Ticket {
-  uuid: string;
+  uuid?: string;
   id: string;
   client: string;
   subj: string;

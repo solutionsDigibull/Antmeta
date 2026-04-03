@@ -41,7 +41,8 @@ export async function POST(request: NextRequest) {
   // Invalidate any prior unused tokens for this email
   await supabase.from('otp_tokens').delete().eq('email', email).eq('used', false)
 
-  const { error } = await supabase.from('otp_tokens').insert({
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error } = await (supabase as any).from('otp_tokens').insert({
     email,
     otp_hash: otpHash,
     expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString(),

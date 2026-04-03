@@ -13,7 +13,8 @@ export async function POST(request: NextRequest) {
   if (!password || password.length < 8) return badRequest('Password must be at least 8 characters')
   if (!name || name.length < 2) return badRequest('Name is required')
 
-  const supabase = await createServiceRoleClient()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const supabase = await createServiceRoleClient() as any
 
   const { data: token, error: fetchError } = await supabase
     .from('otp_tokens')

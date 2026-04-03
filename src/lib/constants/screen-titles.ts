@@ -13,6 +13,8 @@ export const TITLES: Record<string, string> = {
   "/admin/performance-metrics": "Performance Metrics",
   "/admin/partner-performance": "Partner Performance",
   "/admin/tickets": "Ticket Management",
+  "/admin/masters": "Master Accounts",
+  "/admin/invoices": "Invoices",
   "/admin/live-chat": "Live Chat",
   "/admin/help-center": "Help Center",
   "/admin/user-guidelines": "User Guidelines",

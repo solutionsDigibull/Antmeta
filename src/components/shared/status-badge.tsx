@@ -9,6 +9,8 @@ const variants: Record<string, string> = {
   blue: "bg-am-primary-light text-am-primary",
   purple: "bg-am-purple-light text-am-purple",
   teal: "bg-am-accent-light text-am-accent",
+  gray: "bg-am-border-faint text-am-text-3",
+  green: "bg-am-success-light text-am-success",
 };
 
 interface StatusBadgeProps {

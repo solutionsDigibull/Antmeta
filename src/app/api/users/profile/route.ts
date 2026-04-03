@@ -11,7 +11,8 @@ export async function PATCH(request: NextRequest) {
 
   if (!name || name.trim().length < 2) return badRequest('Name must be at least 2 characters')
 
-  const supabase = await createServiceRoleClient()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const supabase = await createServiceRoleClient() as any
   const { error: updateError } = await supabase
     .from('users')
     .update({

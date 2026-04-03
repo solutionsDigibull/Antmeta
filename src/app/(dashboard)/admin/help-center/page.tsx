@@ -65,12 +65,12 @@ export default function HelpCenter() {
   return (
     <div>
       {/* Tab bar */}
-      <div className="flex gap-1 bg-black/20 border border-am-border rounded-[10px] p-1 mb-3.5">
+      <div className="flex gap-1 overflow-x-auto bg-black/20 border border-am-border rounded-[10px] p-1 mb-3.5 no-scrollbar">
         {tabsList.map(([id, label]) => (
           <div
             key={id}
             onClick={() => setTab(id)}
-            className={`flex-1 text-center py-2 px-1.5 rounded-[7px] text-[13px] font-semibold cursor-pointer transition-all ${
+            className={`flex-none whitespace-nowrap text-center py-2 px-3 rounded-[7px] text-[13px] font-semibold cursor-pointer transition-all ${
               tab === id ? "bg-am-primary text-white" : "text-am-text-3 hover:text-am-text-2"
             }`}
           >
@@ -83,7 +83,7 @@ export default function HelpCenter() {
       {tab === "guidelines" && (
         <div>
           <div className="flex justify-between items-center mb-3 flex-wrap gap-2">
-            <SearchInput placeholder="Search guidelines..." className="w-[260px]" />
+            <SearchInput placeholder="Search guidelines..." className="w-full sm:w-[260px]" />
             <button onClick={() => toast.info("Upload document dialog opened")} className="bg-am-primary hover:bg-am-primary-hover text-white text-sm font-semibold px-3 py-1.5 rounded-lg cursor-pointer">+ Upload Document</button>
           </div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-3.5">

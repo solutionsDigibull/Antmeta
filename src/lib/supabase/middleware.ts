@@ -56,5 +56,27 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  // Block client-role users from accessing admin routes
+  if (user && pathname.startsWith('/admin')) {
+    const role = user.app_metadata?.role
+    const isAdmin = role && ['super_admin', 'admin', 'support'].includes(role)
+    if (!isAdmin) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/client/dashboard'
+      return NextResponse.redirect(url)
+    }
+  }
+
+  // Block admin-role users from accessing client routes
+  if (user && pathname.startsWith('/client')) {
+    const role = user.app_metadata?.role
+    const isAdmin = role && ['super_admin', 'admin', 'support'].includes(role)
+    if (isAdmin) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/admin/dashboard'
+      return NextResponse.redirect(url)
+    }
+  }
+
   return supabaseResponse
 }

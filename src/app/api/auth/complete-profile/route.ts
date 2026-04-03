@@ -14,7 +14,8 @@ export async function POST(request: NextRequest) {
   const supabase = await createServiceRoleClient()
 
   // Upsert public.users record
-  const { error: userError } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error: userError } = await (supabase as any)
     .from('users')
     .upsert({
       id: user.id,
@@ -37,7 +38,8 @@ export async function POST(request: NextRequest) {
 
   if (!existing) {
     const clientId = `C${Date.now().toString().slice(-8)}`
-    const { error: clientError } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: clientError } = await (supabase as any)
       .from('clients')
       .insert({
         user_id: user.id,

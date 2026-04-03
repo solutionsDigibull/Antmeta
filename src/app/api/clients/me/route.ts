@@ -12,7 +12,7 @@ export async function GET() {
     .maybeSingle()
 
   if (dbError) return NextResponse.json({ error: dbError.message }, { status: 500 })
-  if (!data) return NextResponse.json({ error: 'Client record not found' }, { status: 404 })
+  if (!data) return NextResponse.json({ data: null }, { status: 200 })
 
   return NextResponse.json({ data })
 }

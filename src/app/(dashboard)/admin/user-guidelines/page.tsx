@@ -19,8 +19,8 @@ export default function UserGuidelines() {
   return (
     <div>
       <div className="flex justify-between items-center mb-3 flex-wrap gap-2">
-        <div className="flex gap-2">
-          <SearchInput placeholder="Search documents..." className="w-[250px]" />
+        <div className="flex gap-2 flex-wrap">
+          <SearchInput placeholder="Search documents..." className="w-full sm:w-[250px]" />
           <FilterSelect>
             <option>All Categories</option><option>Individual KYC</option><option>Corporate KYC</option><option>Algorithms</option><option>Platform</option>
           </FilterSelect>
