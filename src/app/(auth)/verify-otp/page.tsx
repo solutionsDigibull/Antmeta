@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/hooks/use-auth";
 import { Icon } from "@/components/icons";
@@ -9,6 +9,14 @@ import { toast } from "sonner";
 export default function VerifyOtpPage() {
   const router = useRouter();
   const { verifyOtp, resendOtp, signupData, loginError, setLoginError } = useAuth();
+
+  useEffect(() => {
+    if (!signupData.email) {
+      router.replace("/signup");
+    }
+  }, [signupData.email, router]);
+
+  if (!signupData.email) return null;
   const [otpCode, setOtpCode] = useState(["", "", "", "", "", ""]);
   const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 

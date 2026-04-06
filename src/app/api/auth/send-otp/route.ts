@@ -12,10 +12,13 @@ const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000  // 10 minutes
 
 export async function POST(request: NextRequest) {
   const body = await request.json()
-  const { email } = body
+  const { email, type = 'signup' } = body
 
   if (!email || typeof email !== 'string' || !EMAIL_REGEX.test(email)) {
     return badRequest('Valid email is required')
+  }
+  if (!['signup', 'login'].includes(type)) {
+    return badRequest('Invalid OTP type')
   }
 
   const supabase = await createServiceRoleClient()
@@ -38,8 +41,8 @@ export async function POST(request: NextRequest) {
   const otp = randomInt(100000, 999999).toString()
   const otpHash = createHash('sha256').update(otp).digest('hex')
 
-  // Invalidate any prior unused tokens for this email
-  await supabase.from('otp_tokens').delete().eq('email', email).eq('used', false)
+  // Invalidate prior unused tokens of same type for this email
+  await supabase.from('otp_tokens').delete().eq('email', email).eq('used', false).eq('type', type)
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error } = await (supabase as any).from('otp_tokens').insert({
@@ -48,6 +51,7 @@ export async function POST(request: NextRequest) {
     expires_at: new Date(Date.now() + 10 * 60 * 1000).toISOString(),
     used: false,
     failed_attempts: 0,
+    type,
   })
 
   if (error) return NextResponse.json({ error: 'Failed to send OTP' }, { status: 500 })

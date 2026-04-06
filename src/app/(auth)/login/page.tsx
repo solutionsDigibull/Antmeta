@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { useAuth } from "@/hooks/use-auth";
@@ -9,12 +9,43 @@ import { AlertBox } from "@/components/shared/alert-box";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { loginType, setLoginType, login, loginError, setLoginError } = useAuth();
-  const [loginId, setLoginId] = useState("");
-  const [loginPw, setLoginPw] = useState("");
+  const { loginType, setLoginType, loginError, setLoginError, loginOtpEmail, requestLoginOtp, verifyLoginOtp, resendLoginOtp } = useAuth();
+  const [step, setStep] = useState<"email" | "otp">("email");
+  const [emailInput, setEmailInput] = useState("");
+  const [otpCode, setOtpCode] = useState(["", "", "", "", "", ""]);
+  const otpRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  const handleLogin = () => {
-    login(loginId, loginPw);
+  const handleSendOtp = async () => {
+    const ok = await requestLoginOtp(emailInput);
+    if (ok) setStep("otp");
+  };
+
+  const handleVerify = () => {
+    verifyLoginOtp(otpCode.join(""));
+  };
+
+  const handleBack = () => {
+    setStep("email");
+    setOtpCode(["", "", "", "", "", ""]);
+    setLoginError("");
+  };
+
+  const handleOtpInput = (idx: number, val: string) => {
+    if (val.length > 1) val = val.slice(-1);
+    if (val && !/^\d$/.test(val)) return;
+    const newOtp = [...otpCode];
+    newOtp[idx] = val;
+    setOtpCode(newOtp);
+    setLoginError("");
+    if (val && idx < 5 && otpRefs.current[idx + 1]) {
+      otpRefs.current[idx + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (idx: number, e: React.KeyboardEvent) => {
+    if (e.key === "Backspace" && !otpCode[idx] && idx > 0) {
+      otpRefs.current[idx - 1]?.focus();
+    }
   };
 
   return (
@@ -33,8 +64,8 @@ export default function LoginPage() {
             role="button"
             tabIndex={0}
             aria-pressed={loginType === type}
-            onClick={() => { setLoginType(type); setLoginError(""); }}
-            onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { setLoginType(type); setLoginError(""); } }}
+            onClick={() => { setLoginType(type); setLoginError(""); handleBack(); }}
+            onKeyDown={e => { if (e.key === "Enter" || e.key === " ") { setLoginType(type); setLoginError(""); handleBack(); } }}
             className={`flex-1 text-center py-2 rounded-[7px] text-sm font-semibold cursor-pointer transition-all capitalize ${
               loginType === type ? "bg-am-primary text-white" : "text-am-text-3"
             }`}
@@ -48,10 +79,12 @@ export default function LoginPage() {
         {loginType === "admin" ? "Admin Sign In" : "Client Sign In"}
       </h2>
       <p className="text-sm text-am-text-3 mb-5">
-        {loginType === "admin" ? "Access the management console" : "Access your trading dashboard"}
+        {step === "email"
+          ? loginType === "admin" ? "Access the management console" : "Access your trading dashboard"
+          : `We sent a 6-digit code to ${loginOtpEmail}`}
       </p>
 
-      {loginType === "admin" && (
+      {loginType === "admin" && step === "email" && (
         <AlertBox variant="i">Admin accounts are provisioned by the super-admin. Contact support if you need access.</AlertBox>
       )}
 
@@ -62,43 +95,66 @@ export default function LoginPage() {
         </div>
       )}
 
-      {/* Form */}
-      <div className="mb-4">
-        <label className="block text-sm font-semibold text-am-text-4 mb-1 uppercase tracking-wide">Email or Mobile</label>
-        <input
-          type="text"
-          value={loginId}
-          onChange={e => setLoginId(e.target.value)}
-          placeholder={loginType === "admin" ? "admin@antmeta.ai" : "+91 9876543210"}
-          onKeyDown={e => e.key === "Enter" && handleLogin()}
-          className="w-full bg-am-input-bg border border-am-border rounded-lg px-3.5 py-3 text-base text-am-text placeholder:text-am-text-3 outline-none focus:border-am-primary"
-        />
-      </div>
-      <div className="mb-4">
-        <div className="flex items-center justify-between mb-1">
-          <label className="text-sm font-semibold text-am-text-4 uppercase tracking-wide">Password</label>
-          <button onClick={() => router.push("/forgot-password")} className="text-sm text-am-primary font-semibold cursor-pointer bg-transparent border-none">
-            Forgot Password?
+      {step === "email" ? (
+        <>
+          <div className="mb-4">
+            <label className="block text-sm font-semibold text-am-text-4 mb-1 uppercase tracking-wide">Email</label>
+            <input
+              type="email"
+              value={emailInput}
+              onChange={e => setEmailInput(e.target.value)}
+              placeholder={loginType === "admin" ? "admin@antmeta.ai" : "you@example.com"}
+              onKeyDown={e => e.key === "Enter" && handleSendOtp()}
+              className="w-full bg-am-input-bg border border-am-border rounded-lg px-3.5 py-3 text-base text-am-text placeholder:text-am-text-3 outline-none focus:border-am-primary"
+            />
+          </div>
+
+          <button
+            onClick={handleSendOtp}
+            className="w-full py-3 bg-am-primary text-white border-none rounded-lg font-poppins text-base font-bold cursor-pointer shadow-[0_4px_14px_rgba(0,147,182,0.3)] hover:bg-am-primary-hover transition-colors mt-1"
+          >
+            Send OTP
           </button>
-        </div>
-        <input
-          type="password"
-          value={loginPw}
-          onChange={e => setLoginPw(e.target.value)}
-          placeholder="Enter password"
-          onKeyDown={e => e.key === "Enter" && handleLogin()}
-          className="w-full bg-am-input-bg border border-am-border rounded-lg px-3.5 py-3 text-base text-am-text placeholder:text-am-text-3 outline-none focus:border-am-primary"
-        />
-      </div>
+        </>
+      ) : (
+        <>
+          <div className="flex justify-center gap-2.5 mb-6">
+            {otpCode.map((digit, i) => (
+              <input
+                key={i}
+                ref={el => { otpRefs.current[i] = el; }}
+                type="text"
+                inputMode="numeric"
+                maxLength={1}
+                value={digit}
+                onChange={e => handleOtpInput(i, e.target.value)}
+                onKeyDown={e => handleKeyDown(i, e)}
+                className={`w-11 h-[50px] text-center text-xl font-bold bg-am-input-bg border rounded-lg text-am-text outline-none ${
+                  digit ? "border-am-primary" : "border-am-border"
+                }`}
+              />
+            ))}
+          </div>
 
-      <button
-        onClick={handleLogin}
-        className="w-full py-3 bg-am-primary text-white border-none rounded-lg font-poppins text-base font-bold cursor-pointer shadow-[0_4px_14px_rgba(0,147,182,0.3)] hover:bg-am-primary-hover transition-colors mt-1"
-      >
-        Sign In
-      </button>
+          <button
+            onClick={handleVerify}
+            className="w-full py-3 bg-am-primary text-white border-none rounded-lg font-poppins text-base font-bold cursor-pointer shadow-[0_4px_14px_rgba(0,147,182,0.3)] hover:bg-am-primary-hover transition-colors"
+          >
+            Verify &amp; Sign In
+          </button>
 
-      {loginType === "client" && (
+          <div className="flex items-center justify-center gap-4 mt-4">
+            <button onClick={resendLoginOtp} className="text-sm text-am-primary font-semibold cursor-pointer bg-transparent border-none">
+              Resend OTP
+            </button>
+            <button onClick={handleBack} className="text-sm text-am-text-3 font-semibold cursor-pointer bg-transparent border-none">
+              Back
+            </button>
+          </div>
+        </>
+      )}
+
+      {loginType === "client" && step === "email" && (
         <div className="text-center mt-5 text-sm text-am-text-3">
           New to AntMeta?{" "}
           <button onClick={() => router.push("/signup")} className="text-am-primary font-semibold cursor-pointer bg-transparent border-none">
@@ -107,7 +163,7 @@ export default function LoginPage() {
         </div>
       )}
 
-      {loginType === "admin" && (
+      {loginType === "admin" && step === "email" && (
         <div className="text-center mt-4 text-xs text-am-text-3">
           Login attempts are logged for security audit
         </div>

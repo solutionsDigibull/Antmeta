@@ -19,6 +19,10 @@ interface AuthContextValue {
   setSignupData: React.Dispatch<React.SetStateAction<SignupData>>;
   loginError: string;
   setLoginError: (e: string) => void;
+  loginOtpEmail: string;
+  requestLoginOtp: (email: string) => Promise<boolean>;
+  verifyLoginOtp: (code: string) => Promise<void>;
+  resendLoginOtp: () => void;
 }
 
 export const AuthContext = createContext<AuthContextValue | null>(null);
@@ -29,6 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loginType, setLoginType] = useState<"admin" | "client">("admin");
   const [loginError, setLoginError] = useState("");
+  const [loginOtpEmail, setLoginOtpEmail] = useState("");
   const [signupData, setSignupData] = useState<SignupData>({
     mobile: "", name: "", email: "", accountType: "individual", password: "", confirmPw: "",
   });
@@ -185,6 +190,81 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     router.push("/client/dashboard");
   }, [signupData, router, supabase]);
 
+  const requestLoginOtp = useCallback(async (email: string): Promise<boolean> => {
+    setLoginError("");
+    if (!email || !email.includes("@")) { setLoginError("Enter a valid email address"); return false; }
+    const res = await fetch('/api/auth/send-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, type: 'login' }),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      setLoginError(err.error || 'Failed to send OTP');
+      return false;
+    }
+    setLoginOtpEmail(email);
+    toast.success(`OTP sent to ${email}`);
+    return true;
+  }, []);
+
+  const verifyLoginOtp = useCallback(async (code: string): Promise<void> => {
+    setLoginError("");
+    if (code.length < 6) { setLoginError("Enter the complete 6-digit OTP"); return; }
+
+    const res = await fetch('/api/auth/login-otp', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: loginOtpEmail, otp: code }),
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      setLoginError(err.error || 'Invalid OTP');
+      return;
+    }
+
+    const { hashed_token, role } = await res.json();
+
+    const { data, error } = await supabase.auth.verifyOtp({
+      token_hash: hashed_token,
+      type: 'magiclink',
+    });
+
+    if (error || !data.user) {
+      setLoginError(error?.message || 'Failed to establish session. Please try again.');
+      return;
+    }
+
+    const isAdmin = ["super_admin", "admin", "support"].includes(role);
+    const u: User = {
+      id: data.user.id,
+      name: data.user.user_metadata?.name || data.user.email || "User",
+      role: role.split("_").map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(" "),
+      type: isAdmin ? "admin" : "client",
+    };
+    setUser(u);
+    toast.success(`Welcome back, ${u.name}`);
+    router.push(isAdmin ? "/admin/dashboard" : "/client/dashboard");
+  }, [loginOtpEmail, router, supabase]);
+
+  const resendLoginOtp = useCallback(() => {
+    if (!loginOtpEmail) return;
+    (async () => {
+      const res = await fetch('/api/auth/send-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: loginOtpEmail, type: 'login' }),
+      });
+      if (!res.ok) {
+        const err = await res.json();
+        toast.error(err.error || 'Failed to resend OTP');
+      } else {
+        toast.success(`OTP resent to ${loginOtpEmail}`);
+      }
+    })();
+  }, [loginOtpEmail]);
+
   const resendOtp = useCallback(() => {
     if (!signupData.email) return;
     (async () => {
@@ -211,7 +291,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [router, supabase]);
 
   return (
-    <AuthContext.Provider value={{ user, loginType, setLoginType, login, signup, verifyOtp, resendOtp, logout, signupData, setSignupData, loginError, setLoginError }}>
+    <AuthContext.Provider value={{ user, loginType, setLoginType, login, signup, verifyOtp, resendOtp, logout, signupData, setSignupData, loginError, setLoginError, loginOtpEmail, requestLoginOtp, verifyLoginOtp, resendLoginOtp }}>
       {children}
     </AuthContext.Provider>
   );
